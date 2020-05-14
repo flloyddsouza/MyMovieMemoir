@@ -2,7 +2,8 @@
     <string name="app_name">MyMovieMemoir</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
-    <string name="login">Login</string>
+    <string name="login">Sign In</string>
+
     <string name="title_activity_movie_memoir">MovieMemoir</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -16,4 +17,26 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+    <string name="register">Sign UP</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="last_name_hint">Last Name</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="register_confirm">Register</string>
+    <string name="PersonAddress">Address</string>
+    <string name="post_code">Post Code</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="date_of_birth">Date of Birth</string>
+
+
+    <string-array name="State_array">
+        <item>NSW</item>
+        <item>NT</item>
+        <item>QLD</item>
+        <item>SA</item>
+        <item>TAS</item>
+        <item>VIC</item>
+        <item>WA</item>
+    </string-array>
+
 </resources>

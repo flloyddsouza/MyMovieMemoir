@@ -25,7 +25,7 @@ public class NetworkConnection {
     //"http://10.0.2.2:8080/Assignment1/webresources/restws.person/";
 
 
-    public JSONObject getCredintials(String email, String password) {
+    public JSONArray getCredentials(String email, String password) {
         final String methodPath = "restws.credentials/Authenticate/" + email + "/" + password;
         Log.i("Flloyd", "request" + methodPath.toString());
         Request.Builder builder = new Request.Builder();
@@ -42,27 +42,11 @@ public class NetworkConnection {
         JSONArray jsonArray;
         try {
             jsonArray = new JSONArray(results);
-        } catch (JSONException e) {
+        } catch (Exception e) {
+            Log.i("Flloyd :","Test JSON Array: ");
             return null;
         }
 
-        JSONObject credintials;
-
-        try {
-            credintials = jsonArray.getJSONObject(0);
-        } catch (JSONException e) {
-            return null;
-        }
-
-        //Testing
-        String test = "empty";
-        try {
-            test = jsonArray.get(0).toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.i("Flloyd :","Test JSON: " + test );
-
-        return credintials;
+        return jsonArray;
     }
 }
