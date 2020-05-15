@@ -111,10 +111,8 @@ public class Login extends AppCompatActivity {
         boolean valid = true;
         emailText = findViewById(R.id.email);
         passwordText = findViewById(R.id.password);
-
         String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
-
         emailLayout = findViewById(R.id.input_layout_email);
         passwordLayout =findViewById(R.id.input_layout_password);
 

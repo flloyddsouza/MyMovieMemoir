@@ -1,6 +1,7 @@
 package com.flloyd.mymoviememoir;
 
 import android.app.DatePickerDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,17 +10,26 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.flloyd.mymoviememoir.networkConnection.NetworkConnection;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class Register extends AppCompatActivity {
 
+    NetworkConnection networkConnection = null;
     EditText fName, lName,dateOfBirth, address, postalCode, emailText, passwordText,passwordConfirm;
     Spinner state;
     RadioGroup gender;
@@ -42,6 +52,7 @@ public class Register extends AppCompatActivity {
         postalCode = findViewById(R.id.postCode);
         emailText = findViewById(R.id.newEmail);
         passwordText = findViewById(R.id.newPassword);
+        networkConnection = new NetworkConnection();
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -87,7 +98,6 @@ public class Register extends AppCompatActivity {
                     default:
                         personGender = "NA";
                 }
-
                 Log.i("Flloyd", "Gender: " + personGender);
 
                 String DOB = dateOfBirth.getText().toString();
@@ -105,7 +115,12 @@ public class Register extends AppCompatActivity {
                 String email = emailText.getText().toString();
                 Log.i("Flloyd", "Email: " + email);
 
-                String password = passwordText.getText().toString();
+                String password = null;
+                try {
+                    password = hashPassword(passwordText.getText().toString());
+                } catch (NoSuchAlgorithmException ex) {
+                    ex.printStackTrace();
+                }
                 Log.i("Flloyd", "Password: " + password);
 
                 Validate();
@@ -113,6 +128,29 @@ public class Register extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private class emailCheck extends AsyncTask<String, Void, JSONArray> {
+        @Override
+        protected JSONArray doInBackground(@NotNull String... params) {
+            return networkConnection.emailChecker(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray result) {
+            emailLayout = findViewById(R.id.input_layout_new_email);
+            if(result != null && !result.isNull(0)){
+                //Todo matched email
+                emailLayout.setError("Email already exists");
+                Log.i("Flloyd: ", "Result after email check " + result.toString());
+            }else if(result == null) {
+                Toast.makeText(getApplicationContext(), "Network Error. Try Again!", Toast.LENGTH_SHORT).show();
+            }else
+            {
+              //Todo No Match found
+            }
+        }
     }
 
 
@@ -191,13 +229,18 @@ public class Register extends AppCompatActivity {
         emailText = findViewById(R.id.newEmail);
         String email = emailText.getText().toString();
         emailLayout = findViewById(R.id.input_layout_new_email);
+
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailLayout.setError("Enter a valid email address");
             valid = false;
-        } else {
+        }else {
             emailLayout.setError(null);
         }
 
+        if(!email.isEmpty()){
+            emailCheck emailCheck = new emailCheck();
+            emailCheck.execute(email);
+        }
 
         passwordText = findViewById(R.id.newPassword);
         String password = passwordText.getText().toString();
@@ -228,4 +271,14 @@ public class Register extends AppCompatActivity {
         return valid;
     }
 
+
+    public String hashPassword(@NotNull String password) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] hashInBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+        StringBuilder hash = new StringBuilder();
+        for (byte b : hashInBytes) {
+            hash.append(String.format("%02x", b));
+        }
+        return hash.toString();
+    }
 }
