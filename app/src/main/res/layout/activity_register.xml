@@ -148,6 +148,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLines="1" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
 

@@ -33,6 +33,8 @@ public class Register extends AppCompatActivity {
     EditText fName, lName,dateOfBirth, address, postalCode, emailText, passwordText,passwordConfirm;
     Spinner state;
     RadioGroup gender;
+    boolean validation;
+    String firstName,lastName,personGender,DOB,streetAddress,stateCode,postCode,email,password;
     TextInputLayout fNameLayout,lNameLayout,DOBLayout,AddressLayout,postCodeLayout,emailLayout,passwordLayout,passwordConfirmLayout;
 
     final Calendar myCalendar = Calendar.getInstance();
@@ -79,15 +81,8 @@ public class Register extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                String firstName = fName.getText().toString();
-                Log.i("Flloyd", "Fname: " + firstName);
-
-                String lastName = lName.getText().toString();
-                Log.i("Flloyd", "Lname: " + lastName);
-
-                String personGender;
+                firstName = fName.getText().toString();
+                lastName = lName.getText().toString();
                 switch (gender.getCheckedRadioButtonId()){
                     case R.id.male:
                         personGender ="M";
@@ -98,33 +93,28 @@ public class Register extends AppCompatActivity {
                     default:
                         personGender = "NA";
                 }
-                Log.i("Flloyd", "Gender: " + personGender);
-
-                String DOB = dateOfBirth.getText().toString();
-                Log.i("Flloyd", "DOB: " +DOB);
-
-                String streetAddress = address.getText().toString();
-                Log.i("Flloyd", "Address: " + streetAddress);
-
-                String stateCode = state.getSelectedItem().toString();
-                Log.i("Flloyd", "State: " + stateCode);
-
-                String postCode = postalCode.getText().toString();
-                Log.i("Flloyd", "Post Code: " + postCode);
-
-                String email = emailText.getText().toString();
-                Log.i("Flloyd", "Email: " + email);
-
-                String password = null;
+                DOB = dateOfBirth.getText().toString();
+                streetAddress = address.getText().toString();
+                stateCode = state.getSelectedItem().toString();
+                postCode = postalCode.getText().toString();
+                email = emailText.getText().toString();
+                password = null;
                 try {
                     password = hashPassword(passwordText.getText().toString());
                 } catch (NoSuchAlgorithmException ex) {
                     ex.printStackTrace();
                 }
+
+                Log.i("Flloyd", "Fname: " + firstName);
+                Log.i("Flloyd", "Lname: " + lastName);
+                Log.i("Flloyd", "Gender: " + personGender);
+                Log.i("Flloyd", "DOB: " +DOB);
+                Log.i("Flloyd", "Address: " + streetAddress);
+                Log.i("Flloyd", "State: " + stateCode);
+                Log.i("Flloyd", "Post Code: " + postCode);
+                Log.i("Flloyd", "Email: " + email);
                 Log.i("Flloyd", "Password: " + password);
-
-                Validate();
-
+                validation = Validate();
             }
         });
 
@@ -136,31 +126,43 @@ public class Register extends AppCompatActivity {
         protected JSONArray doInBackground(@NotNull String... params) {
             return networkConnection.emailChecker(params[0]);
         }
-
         @Override
         protected void onPostExecute(JSONArray result) {
             emailLayout = findViewById(R.id.input_layout_new_email);
             if(result != null && !result.isNull(0)){
-                //Todo matched email
                 emailLayout.setError("Email already exists");
                 Log.i("Flloyd: ", "Result after email check " + result.toString());
             }else if(result == null) {
                 Toast.makeText(getApplicationContext(), "Network Error. Try Again!", Toast.LENGTH_SHORT).show();
-            }else
-            {
-              //Todo No Match found
+            }else if (result.isNull(0)){
+                Toast.makeText(getApplicationContext(), "Email Available", Toast.LENGTH_SHORT).show();
+                if(validation)
+                {
+                    Log.i("Flloyd ","Everything looks good ");
+                    registerToDatabase rg = new registerToDatabase();
+                    rg.execute();
+                }
+
             }
         }
     }
 
 
+    private class registerToDatabase extends AsyncTask<String,Void,String>{
+        @Override
+        protected String doInBackground(@NotNull String... params) {
+            return networkConnection.register(firstName,lastName,personGender,DOB,streetAddress,stateCode,postCode,email,password);
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            Log.i("Flloyd ","result: " + result);
+        }
+    }
+
     public boolean Validate()
     {
-        boolean valid = true;
-
-        fName = findViewById(R.id.fName);
-        String firstName = fName.getText().toString();
         fNameLayout = findViewById(R.id.input_layout_name);
+        boolean valid = true;
         if(firstName.trim().isEmpty()){
             fNameLayout.setError("First name cannot be empty");
             valid = false;
@@ -168,13 +170,10 @@ public class Register extends AppCompatActivity {
             fNameLayout.setError("First name cannot exceed 20 characters");
             valid = false;
         }
-         else {
+        else {
             fNameLayout.setError(null);
         }
 
-
-        lName = findViewById(R.id.lName);
-        String lastName = lName.getText().toString();
         lNameLayout = findViewById(R.id.input_layout_surname);
         if(lastName.trim().isEmpty()){
             lNameLayout.setError("Last name cannot be empty");
@@ -187,8 +186,6 @@ public class Register extends AppCompatActivity {
             lNameLayout.setError(null);
         }
 
-        dateOfBirth = findViewById(R.id.dateOfBirth);
-        String DOB = dateOfBirth.getText().toString();
         DOBLayout = findViewById(R.id.input_layout_DOB);
         if(DOB.isEmpty()){
             DOBLayout.setError("Select the Date Of Birth ");
@@ -198,9 +195,6 @@ public class Register extends AppCompatActivity {
             DOBLayout.setError(null);
         }
 
-
-        address = findViewById(R.id.streetAddress);
-        String streetAddress = address.getText().toString();
         AddressLayout = findViewById(R.id.input_layout_address);
         if(streetAddress.trim().isEmpty()){
             AddressLayout.setError("Address cannot be empty");
@@ -212,9 +206,6 @@ public class Register extends AppCompatActivity {
             AddressLayout.setError(null);
         }
 
-
-        postalCode = findViewById(R.id.postCode);
-        String postCode = postalCode.getText().toString();
         postCodeLayout = findViewById(R.id.input_layout_postCode);
         if (postCode.trim().isEmpty()){
             postCodeLayout.setError("Post Code cannot be empty");
@@ -226,10 +217,7 @@ public class Register extends AppCompatActivity {
             postCodeLayout.setError(null);
         }
 
-        emailText = findViewById(R.id.newEmail);
-        String email = emailText.getText().toString();
         emailLayout = findViewById(R.id.input_layout_new_email);
-
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailLayout.setError("Enter a valid email address");
             valid = false;
@@ -237,18 +225,18 @@ public class Register extends AppCompatActivity {
             emailLayout.setError(null);
         }
 
-        if(!email.isEmpty()){
+        if(!email.isEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             emailCheck emailCheck = new emailCheck();
             emailCheck.execute(email);
         }
 
         passwordText = findViewById(R.id.newPassword);
-        String password = passwordText.getText().toString();
+        String _password = passwordText.getText().toString();
         passwordLayout = findViewById(R.id.input_layout_new_password);
-        if (password.isEmpty()) {
+        if (_password.isEmpty()) {
             passwordLayout.setError("Password cannot be empty");
             valid = false;
-        }else if(password.length() < 6 )
+        }else if(_password.length() < 6 )
         {
             valid = false;
             passwordLayout.setError("Alpha numeric character greater than 6");
@@ -257,17 +245,15 @@ public class Register extends AppCompatActivity {
             passwordLayout.setError(null);
         }
 
-
         passwordConfirm = findViewById(R.id.confirmPassword);
-        String confirmPassword = passwordConfirm.getText().toString();
+        String confirm_Password = passwordConfirm.getText().toString();
         passwordConfirmLayout = findViewById(R.id.input_layout_confirm_password);
-        if (!confirmPassword.equals(password) || confirmPassword.isEmpty()){
+        if (!confirm_Password.equals(_password) || confirm_Password.isEmpty()){
             valid = false;
             passwordConfirmLayout.setError("Password does not match");
         }else{
             passwordConfirmLayout.setError(null);
         }
-
         return valid;
     }
 

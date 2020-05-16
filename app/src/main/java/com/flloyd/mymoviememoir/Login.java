@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,17 +29,21 @@ public class Login extends AppCompatActivity {
     NetworkConnection networkConnection = null;
     TextInputLayout emailLayout,passwordLayout;
     EditText emailText,passwordText;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         networkConnection = new NetworkConnection();
-        Log.i("Flloyd: ", "Start");
+
 
         Button Login = findViewById(R.id.login);
         emailText = findViewById(R.id.email);
         passwordText = findViewById(R.id.password);
+        progressBar = findViewById(R.id.progressBar1);
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.GONE);
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,8 +58,11 @@ public class Login extends AppCompatActivity {
                 Log.i("Flloyd: ", "Email:" + e);
                 Log.i("Flloyd: ", "Password:" + p);
               Authenticate authenticate = new Authenticate();
-              if(validate())
+              if(validate()){
                   authenticate.execute(e,p);
+                  progressBar.setVisibility(View.VISIBLE);
+              }
+
             }
         });
 
@@ -69,8 +77,15 @@ public class Login extends AppCompatActivity {
     }
 
     private class Authenticate extends AsyncTask<String, Void, JSONArray> {
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
         @Override
         protected JSONArray doInBackground(@NotNull String... params) {
+
             return networkConnection.getCredentials(params[0],params[1]);
         }
 
@@ -93,14 +108,17 @@ public class Login extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 setResult(RESULT_OK,intent);
+                progressBar.setVisibility(View.GONE);
                 startActivity(intent);
                 finish();
             }
             else if(result == null) {
                 Toast.makeText(getApplicationContext(), "Network Error. Try Again!", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
             else if(result.isNull(0)) {
                 Toast.makeText(getApplicationContext(), "Incorrect Username Or Password",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
 
         }
