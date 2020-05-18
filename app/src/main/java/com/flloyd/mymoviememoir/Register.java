@@ -1,6 +1,7 @@
 package com.flloyd.mymoviememoir;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +34,7 @@ public class Register extends AppCompatActivity {
     EditText fName, lName,dateOfBirth, address, postalCode, emailText, passwordText,passwordConfirm;
     Spinner state;
     RadioGroup gender;
-    boolean validation;
+    Boolean validation;
     String firstName,lastName,personGender,DOB,streetAddress,stateCode,postCode,email,password;
     TextInputLayout fNameLayout,lNameLayout,DOBLayout,AddressLayout,postCodeLayout,emailLayout,passwordLayout,passwordConfirmLayout;
 
@@ -81,8 +82,8 @@ public class Register extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstName = fName.getText().toString();
-                lastName = lName.getText().toString();
+                firstName = fName.getText().toString().trim();
+                lastName = lName.getText().toString().trim();
                 switch (gender.getCheckedRadioButtonId()){
                     case R.id.male:
                         personGender ="M";
@@ -94,10 +95,10 @@ public class Register extends AppCompatActivity {
                         personGender = "NA";
                 }
                 DOB = dateOfBirth.getText().toString();
-                streetAddress = address.getText().toString();
+                streetAddress = address.getText().toString().trim();
                 stateCode = state.getSelectedItem().toString();
                 postCode = postalCode.getText().toString();
-                email = emailText.getText().toString();
+                email = emailText.getText().toString().trim();
                 password = null;
                 try {
                     password = hashPassword(passwordText.getText().toString());
@@ -138,7 +139,6 @@ public class Register extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Email Available", Toast.LENGTH_SHORT).show();
                 if(validation)
                 {
-                    Log.i("Flloyd ","Everything looks good ");
                     registerToDatabase rg = new registerToDatabase();
                     rg.execute();
                 }
@@ -156,19 +156,29 @@ public class Register extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             Log.i("Flloyd ","result: " + result);
+            if (result.equals("ERROR")){
+                Toast.makeText(getApplicationContext(), "Registration Unsuccessful", Toast.LENGTH_SHORT).show();
+            }else{
+                Intent intent =  new Intent(Register.this, MovieMemoir.class);
+                intent.putExtra("Person",result);
+                setResult(RESULT_OK,intent);
+                startActivity(intent);
+                finish();
+            }
+
         }
     }
 
-    public boolean Validate()
+    public Boolean Validate()
     {
         fNameLayout = findViewById(R.id.input_layout_name);
-        boolean valid = true;
+        Boolean valid = Boolean.TRUE;
         if(firstName.trim().isEmpty()){
             fNameLayout.setError("First name cannot be empty");
-            valid = false;
+            valid = Boolean.FALSE;
         }else if(firstName.length() > 20){
             fNameLayout.setError("First name cannot exceed 20 characters");
-            valid = false;
+            valid = Boolean.FALSE;
         }
         else {
             fNameLayout.setError(null);
@@ -177,10 +187,10 @@ public class Register extends AppCompatActivity {
         lNameLayout = findViewById(R.id.input_layout_surname);
         if(lastName.trim().isEmpty()){
             lNameLayout.setError("Last name cannot be empty");
-            valid = false;
+            valid = Boolean.FALSE;
         }else if(lastName.length() > 20){
             lNameLayout.setError("Last name cannot exceed 20 characters");
-            valid = false;
+            valid = Boolean.FALSE;
         }
         else {
             lNameLayout.setError(null);
@@ -189,7 +199,7 @@ public class Register extends AppCompatActivity {
         DOBLayout = findViewById(R.id.input_layout_DOB);
         if(DOB.isEmpty()){
             DOBLayout.setError("Select the Date Of Birth ");
-            valid = false;
+            valid = Boolean.FALSE;
         }
         else {
             DOBLayout.setError(null);
@@ -198,10 +208,10 @@ public class Register extends AppCompatActivity {
         AddressLayout = findViewById(R.id.input_layout_address);
         if(streetAddress.trim().isEmpty()){
             AddressLayout.setError("Address cannot be empty");
-            valid = false;
+            valid = Boolean.FALSE;
         }else if(streetAddress.length() > 50){
             AddressLayout.setError("Address cannot exceed 50 characters");
-            valid = false;
+            valid = Boolean.FALSE;
         }else {
             AddressLayout.setError(null);
         }
@@ -209,10 +219,10 @@ public class Register extends AppCompatActivity {
         postCodeLayout = findViewById(R.id.input_layout_postCode);
         if (postCode.trim().isEmpty()){
             postCodeLayout.setError("Post Code cannot be empty");
-            valid = false;
+            valid = Boolean.FALSE;
         }else if (postCode.length() != 4){
             postCodeLayout.setError("Enter a valid Post Code");
-            valid = false;
+            valid = Boolean.FALSE;
         }else {
             postCodeLayout.setError(null);
         }
@@ -220,7 +230,7 @@ public class Register extends AppCompatActivity {
         emailLayout = findViewById(R.id.input_layout_new_email);
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailLayout.setError("Enter a valid email address");
-            valid = false;
+            valid = Boolean.FALSE;
         }else {
             emailLayout.setError(null);
         }
@@ -235,10 +245,10 @@ public class Register extends AppCompatActivity {
         passwordLayout = findViewById(R.id.input_layout_new_password);
         if (_password.isEmpty()) {
             passwordLayout.setError("Password cannot be empty");
-            valid = false;
+            valid = Boolean.FALSE;
         }else if(_password.length() < 6 )
         {
-            valid = false;
+            valid = Boolean.FALSE;
             passwordLayout.setError("Alpha numeric character greater than 6");
         }
         else {
@@ -249,7 +259,7 @@ public class Register extends AppCompatActivity {
         String confirm_Password = passwordConfirm.getText().toString();
         passwordConfirmLayout = findViewById(R.id.input_layout_confirm_password);
         if (!confirm_Password.equals(_password) || confirm_Password.isEmpty()){
-            valid = false;
+            valid = Boolean.FALSE;
             passwordConfirmLayout.setError("Password does not match");
         }else{
             passwordConfirmLayout.setError(null);

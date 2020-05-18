@@ -80,7 +80,8 @@ public class NetworkConnection {
     }
 
 
-    public String register(String fName, String lName, String gender, String DOB, String streetAddress, String stateCode, String postCode, String email, String password) {
+    public String register(String fName, String lName, String gender, String DOB, String streetAddress,
+                           String stateCode, String postCode, String email, String password) {
         Person person = new Person(5,fName,lName,gender,DOB,streetAddress,stateCode,postCode);
         Gson gson = new Gson();
         String personJson = gson.toJson(person);
@@ -122,10 +123,12 @@ public class NetworkConnection {
                 e.printStackTrace();
             }
 
-            return newStrResponse;
+             if (newStrResponse.trim().isEmpty())
+                 return credentialsJson;
+             else
+                 return "ERROR";
         }else
-            return strResponse;
+            return "ERROR";
     }
-
 
 }
