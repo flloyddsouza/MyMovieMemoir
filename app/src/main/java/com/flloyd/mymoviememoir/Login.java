@@ -1,6 +1,8 @@
 package com.flloyd.mymoviememoir;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,21 +94,23 @@ public class Login extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONArray result) {
 
-            String test = "User";
+            String user = "";
             if(result != null && !result.isNull(0)) {
                 try {
-                    test = result.getJSONObject(0).getJSONObject("personid").getString("personfname");
+                    user = result.getJSONObject(0).getJSONObject("personid").getString("personfname");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getApplicationContext(), "Hello " + test, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Hello " + user, Toast.LENGTH_SHORT).show();
                 Log.i("Flloyd: ", "Result after login: " + result.toString());
-                Intent intent =  new Intent(Login.this, MovieMemoir.class);
-                try {
-                    intent.putExtra("Person", String.valueOf(result.getJSONObject(0).getJSONObject("personid")));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Intent intent =  new Intent(Login.this, MyMovieMemoir.class);
+                String loginCredentials = String.valueOf(result);
+                SharedPreferences sharedPref = getSharedPreferences("DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor spEditor = sharedPref.edit();
+                spEditor.putString("Credential", loginCredentials);
+                spEditor.apply();
+
+
                 setResult(RESULT_OK,intent);
                 progressBar.setVisibility(View.GONE);
                 startActivity(intent);

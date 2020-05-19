@@ -7,8 +7,9 @@ import com.flloyd.mymoviememoir.M3Model.Person;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -82,13 +83,14 @@ public class NetworkConnection {
 
     public String register(String fName, String lName, String gender, String DOB, String streetAddress,
                            String stateCode, String postCode, String email, String password) {
+
         Person person = new Person(5,fName,lName,gender,DOB,streetAddress,stateCode,postCode);
         Gson gson = new Gson();
         String personJson = gson.toJson(person);
-        String strResponse="";
+        String strResponse = "NULL";
 
         Log.i("json " , personJson);
-         String methodPath = "restws.person/";
+        String methodPath = "restws.person/";
 
         RequestBody body = RequestBody.create(personJson, JSON);
         Request request = new Request.Builder()
@@ -104,10 +106,13 @@ public class NetworkConnection {
 
         if(strResponse.trim().isEmpty()) {
 
-            Credentials credentials = new Credentials(5, email, password, "2018-12-01");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDateTime now = LocalDateTime.now();
+            String signUpDate = now.format(dtf);
+            Credentials credentials = new Credentials(5, email, password,signUpDate);
             credentials.setPersonid(person);
             String credentialsJson = gson.toJson(credentials);
-            String newStrResponse="";
+            String newStrResponse="NULL";
 
             Log.i("json " , credentialsJson);
             String methodPath2 = "restws.credentials/";
@@ -119,6 +124,7 @@ public class NetworkConnection {
             try {
                 Response response2= client.newCall(request2).execute();
                 newStrResponse= response2.body().string();
+                Log.i("Flloyd :" ,"newStrResponse: " + newStrResponse);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -129,6 +135,29 @@ public class NetworkConnection {
                  return "ERROR";
         }else
             return "ERROR";
+    }
+
+    public JSONArray topMovies (String personId) {
+        final String methodPath = "restws.memoir/topFiveMovies/" + personId;
+        Log.i("Flloyd", "request" + methodPath);
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath);
+
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            results = response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JSONArray jsonArray;
+        try {
+            jsonArray = new JSONArray(results);
+        } catch (Exception e) {
+            return null;
+        }
+        return jsonArray;
     }
 
 }

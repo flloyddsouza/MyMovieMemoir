@@ -1,7 +1,9 @@
 package com.flloyd.mymoviememoir;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -159,9 +161,12 @@ public class Register extends AppCompatActivity {
             if (result.equals("ERROR")){
                 Toast.makeText(getApplicationContext(), "Registration Unsuccessful", Toast.LENGTH_SHORT).show();
             }else{
-                Intent intent =  new Intent(Register.this, MovieMemoir.class);
-                intent.putExtra("Person",result);
-                setResult(RESULT_OK,intent);
+                SharedPreferences sharedPref = getSharedPreferences("DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor spEditor = sharedPref.edit();
+                String shareCredential = "[" + result + "]";
+                spEditor.putString("Credential", shareCredential);
+                spEditor.apply();
+                Intent intent =  new Intent(Register.this, MyMovieMemoir.class);
                 startActivity(intent);
                 finish();
             }
