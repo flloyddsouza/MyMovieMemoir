@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView movieName;
-        public TextView rating;
+        public RatingBar rating;
         public TextView releaseDate;
 
         public ViewHolder(View itemView) {
@@ -67,10 +68,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView movieNameTV = viewHolder.movieName;
         movieNameTV.setText(topMovie.getMovieName());
 
-        TextView ratingTV = viewHolder.rating;
-        ratingTV.setText(topMovie.getRating().toString());
-        TextView dateTV = viewHolder.releaseDate;
+        RatingBar ratingTV = viewHolder.rating;
+        ratingTV.setRating(topMovie.getRating().floatValue());
 
+        TextView dateTV = viewHolder.releaseDate;
         Date date = topMovie.getReleaseDate();
         dateTV.setText(formatter.format(date));
     }

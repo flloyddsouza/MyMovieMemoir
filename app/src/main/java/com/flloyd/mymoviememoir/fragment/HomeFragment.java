@@ -37,7 +37,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private NetworkConnection networkConnection = null;
-    private TextView textView;
+    private TextView userName, currentDate;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
 
 
     public HomeFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy");
         LocalDateTime now = LocalDateTime.now();
         String Date = now.format(dtf);
         String id, firstName;
@@ -65,7 +65,8 @@ public class HomeFragment extends Fragment {
         networkConnection = new NetworkConnection();
         topMovies = new ArrayList<>();
 
-        //textView=view.findViewById(R.id.tv);
+        userName = view.findViewById(R.id.textView);
+        currentDate = view.findViewById(R.id.dateText);
         recyclerView = view.findViewById(R.id.recyclerView);
         adapter = new RecyclerViewAdapter(topMovies);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
@@ -90,6 +91,9 @@ public class HomeFragment extends Fragment {
         Log.i("Flloyd: ", "First Name:" + firstName);
         Log.i("Flloyd: ", "Date:" + Date);
         Log.i("Flloyd: ", "ID:" + id);
+        String welcome = "Hello, \n" + firstName;
+        userName.setText(welcome);
+        currentDate.setText(Date);
 
         displayTopMovies displayTopMovies = new displayTopMovies();
         displayTopMovies.execute(id);

@@ -33,6 +33,11 @@
 
     <string name="Open">open</string>
     <string name="Close">close</string>
+    <string name="place_holder">Place Holder</string>
+    <string name="top_movies_watched">Top Movies Watched</string>
+    <string name="hello_user">Hello, \nUser</string>
+    <string name="movie_search">Movie Search</string>
+
 
     <string-array name="State_array">
         <item>NSW</item>

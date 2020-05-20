@@ -12,16 +12,16 @@ import androidx.fragment.app.Fragment;
 
 import com.flloyd.mymoviememoir.R;
 
-public class ViewFragment extends Fragment {
+public class MovieSearchFrafment extends Fragment {
     private TextView tvMessage;
-    public ViewFragment() {
+    public MovieSearchFrafment() {
         // Required empty public constructor
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the View for this fragment
-        View view = inflater.inflate(R.layout.view_fragment, container, false);
+        View view = inflater.inflate(R.layout.movie_search_fragment, container, false);
         tvMessage = view.findViewById(R.id.tv_showmessage);
         SharedPreferences sharedPref= getActivity().
                 getSharedPreferences("Message", Context.MODE_PRIVATE);
