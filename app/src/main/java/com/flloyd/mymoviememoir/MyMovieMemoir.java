@@ -14,7 +14,7 @@ import android.view.MenuItem;
 
 import com.flloyd.mymoviememoir.fragment.AddFragment;
 import com.flloyd.mymoviememoir.fragment.HomeFragment;
-import com.flloyd.mymoviememoir.fragment.MovieSearchFrafment;
+import com.flloyd.mymoviememoir.fragment.MovieSearchFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,7 +76,7 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
                 replaceFragment(new AddFragment());
                 break;
             case R.id.displayMessage:
-                replaceFragment(new MovieSearchFrafment());
+                replaceFragment(new MovieSearchFragment());
                 break;
         }
         //this code closes the drawer after you selected an item from the menu, otherwise stay open

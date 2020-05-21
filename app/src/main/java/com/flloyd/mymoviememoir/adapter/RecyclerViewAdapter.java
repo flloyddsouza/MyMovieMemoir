@@ -22,7 +22,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<TopMovie> topMovieList;
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView movieName;
         public RatingBar rating;
         public TextView releaseDate;
@@ -55,8 +55,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View unitsView = inflater.inflate(R.layout.rv_layout, parent, false);
-        ViewHolder viewHolder = new ViewHolder(unitsView);
+        View topMoviesView = inflater.inflate(R.layout.rv_layout, parent, false);
+        ViewHolder viewHolder = new ViewHolder(topMoviesView);
         return viewHolder;
     }
 
@@ -75,4 +75,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Date date = topMovie.getReleaseDate();
         dateTV.setText(formatter.format(date));
     }
+
 }
