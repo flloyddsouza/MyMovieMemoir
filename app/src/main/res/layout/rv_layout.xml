@@ -9,7 +9,13 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="85dp"
+        android:clickable="false"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="6dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -18,8 +24,8 @@
 
             <TextView
                 android:id="@+id/movieName"
-                android:layout_width="217dp"
-                android:layout_height="30dp"
+                android:layout_width="207dp"
+                android:layout_height="29dp"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
                 android:text="@string/place_holder"
@@ -46,7 +52,7 @@
                 app:layout_constraintHorizontal_bias="0.016"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieName"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.259" />
 
             <RatingBar
                 android:id="@+id/rating"
@@ -61,7 +67,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.238" />
+                app:layout_constraintVertical_bias="0.363" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

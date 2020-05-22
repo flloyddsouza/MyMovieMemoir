@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.flloyd.mymoviememoir.fragment.AddFragment;
+import com.flloyd.mymoviememoir.fragment.MovieDetailsFragment;
 import com.flloyd.mymoviememoir.fragment.HomeFragment;
 import com.flloyd.mymoviememoir.fragment.MovieSearchFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -27,11 +27,7 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_movie_memoir);
-        /*
-        Intent intent = getIntent();
-        String test = intent.getStringExtra("Person");
-        Log.i("Flloyd :","DATA: " + test);
-        */
+
 
 
 
@@ -73,7 +69,7 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
                 replaceFragment(new HomeFragment());
                 break;
             case R.id.addMessage:
-                replaceFragment(new AddFragment());
+                replaceFragment(new MovieDetailsFragment());
                 break;
             case R.id.displayMessage:
                 replaceFragment(new MovieSearchFragment());

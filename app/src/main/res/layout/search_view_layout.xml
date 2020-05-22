@@ -9,26 +9,33 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="6dp"
+        android:clickable="true"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="80dp">
 
             <ImageView
                 android:id="@+id/image_poster"
                 android:layout_width="45dp"
                 android:layout_height="70dp"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="4dp"
+                android:contentDescription="Poster Of Movie"
                 android:src="@drawable/ic_launcher_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.3" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/movieNameSearch"
-                android:layout_width="300dp"
+                android:layout_width="289dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:lines="1"
@@ -37,23 +44,22 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.296"
+                app:layout_constraintHorizontal_bias="0.44"
                 app:layout_constraintStart_toEndOf="@+id/image_poster"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.118" />
+                app:layout_constraintVertical_bias="0.089" />
 
             <TextView
                 android:id="@+id/movieYearSearch"
                 android:layout_width="92dp"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
                 android:lines="1"
                 android:text="@string/place_holder"
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.228"
+                app:layout_constraintHorizontal_bias="0.245"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieNameSearch" />
 

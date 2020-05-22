@@ -2,15 +2,13 @@ package com.flloyd.mymoviememoir.networkConnection;
 
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-public class SearchGoogleAPI {
-    private static final String API_KEY = "6c41d9157a4e415ac7171a8706691d73";
+public class OMDbAPI {
+
+    private static final String API_KEY = "5e7bb8ce";
     public static String search(String keyword) {
         keyword = keyword.replace(" ", "+");
         URL url = null;
@@ -18,7 +16,7 @@ public class SearchGoogleAPI {
         String textResult = "";
 
         try {
-            url = new URL("https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&language=en-US&query="+ keyword+ "&page=1&include_adult=false");
+            url = new URL("http://www.omdbapi.com/?t=" + keyword + "&apikey=" + API_KEY + "&type=movie");
 
             connection = (HttpURLConnection)url.openConnection();
             connection.setReadTimeout(10000);
@@ -30,7 +28,7 @@ public class SearchGoogleAPI {
             while (scanner.hasNextLine()) {
                 textResult += scanner.nextLine();
             }
-            Log.i("Flloyd ", "Result OF API Entity: " +textResult);
+            Log.i("Flloyd ", "Result OF OMDb API: " +textResult);
         }catch (Exception e){
             e.printStackTrace();
         }finally{
@@ -38,6 +36,5 @@ public class SearchGoogleAPI {
         }
         return textResult;
     }
-
 
 }

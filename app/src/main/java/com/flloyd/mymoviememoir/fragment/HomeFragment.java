@@ -69,7 +69,6 @@ public class HomeFragment extends Fragment {
         currentDate = view.findViewById(R.id.dateText);
         recyclerView = view.findViewById(R.id.recyclerView);
         adapter = new RecyclerViewAdapter(topMovies);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);

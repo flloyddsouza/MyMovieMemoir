@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flloyd.mymoviememoir.DataModel.SearchResult;
 import com.flloyd.mymoviememoir.R;
 import com.flloyd.mymoviememoir.adapter.RecyclerSearchMovieAdapter;
-import com.flloyd.mymoviememoir.networkConnection.SearchGoogleAPI;
+import com.flloyd.mymoviememoir.networkConnection.theMovieDbAPI;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -43,13 +42,11 @@ public class MovieSearchFragment extends Fragment implements SearchView.OnQueryT
 
         searchResultList = new ArrayList<>();
         View view = inflater.inflate(R.layout.movie_search_fragment, container, false);
+
         movieSearch = view.findViewById(R.id.movieSearchView);
-        recyclerView = view.findViewById(R.id.recyclerViewSearch);
         movieSearch.setOnQueryTextListener(this);
-
+        recyclerView = view.findViewById(R.id.recyclerViewSearch);
         adapter = new RecyclerSearchMovieAdapter(searchResultList);
-
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -61,7 +58,7 @@ public class MovieSearchFragment extends Fragment implements SearchView.OnQueryT
     private class queryConfirm extends AsyncTask<String,Void,String> {
         @Override
         protected String doInBackground(@NotNull String... params) {
-            return SearchGoogleAPI.search(params[0]);
+            return theMovieDbAPI.search(params[0]);
         }
         @Override
         protected void onPostExecute(String result) {
@@ -72,7 +69,7 @@ public class MovieSearchFragment extends Fragment implements SearchView.OnQueryT
                 JSONArray jsonArray = new JSONArray(arrayString);
 
                 for (int i = 0; i< jsonArray.length() && i< 5; i++ ){
-                    String name = jsonArray.getJSONObject(i).getString("original_title");
+                    String name = jsonArray.getJSONObject(i).getString("title");
                     String date = jsonArray.getJSONObject(i).getString("release_date").substring(0,4);
                     String image = IMAGE_URL + jsonArray.getJSONObject(i).getString("poster_path");
                     Log.i("Flloyd", "Name: "  + name + date + image);
@@ -101,7 +98,7 @@ public class MovieSearchFragment extends Fragment implements SearchView.OnQueryT
     }
 
     private void saveData(String movieName, String year, String image) {
-        SearchResult searchResult = new SearchResult(movieName,year,image);
+        SearchResult searchResult = new SearchResult(movieName,year.trim(),image);
         searchResultList.add(searchResult);
         adapter.addSearchResult(searchResultList);
     }
