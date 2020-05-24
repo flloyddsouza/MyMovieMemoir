@@ -72,8 +72,9 @@ public class MovieSearchFragment extends Fragment implements SearchView.OnQueryT
                     String name = jsonArray.getJSONObject(i).getString("title");
                     String date = jsonArray.getJSONObject(i).getString("release_date").substring(0,4);
                     String image = IMAGE_URL + jsonArray.getJSONObject(i).getString("poster_path");
+                    String backdropImage = IMAGE_URL + jsonArray.getJSONObject(i).getString("backdrop_path");
                     Log.i("Flloyd", "Name: "  + name + date + image);
-                    saveData(name,date,image);
+                    saveData(name,date,image,backdropImage);
                 }
 
             } catch (JSONException e) {
@@ -97,8 +98,8 @@ public class MovieSearchFragment extends Fragment implements SearchView.OnQueryT
         return false;
     }
 
-    private void saveData(String movieName, String year, String image) {
-        SearchResult searchResult = new SearchResult(movieName,year.trim(),image);
+    private void saveData(String movieName, String year, String image,String backdropImage) {
+        SearchResult searchResult = new SearchResult(movieName,year.trim(),image,backdropImage);
         searchResultList.add(searchResult);
         adapter.addSearchResult(searchResultList);
     }

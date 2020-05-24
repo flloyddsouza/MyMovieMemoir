@@ -1,25 +1,37 @@
 package com.flloyd.mymoviememoir.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.flloyd.mymoviememoir.R;
 import com.flloyd.mymoviememoir.networkConnection.OMDbAPI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.URL;
+
 public class MovieDetailsFragment extends Fragment {
 
-    private String name,year,image,genre,cast,releaseDate,country,director,description,rating;
+    private String name,year,genre,cast,releaseDate,country,director,description,rating;
+    private ImageView poster;
+    RatingBar ratingBar;
+    private TextView movieNameTV,YearTV,descriptionTV,genreTV,castTV,directorTV,releasedTV,countryTV;
+
     public MovieDetailsFragment() {
 
     }
@@ -28,11 +40,38 @@ public class MovieDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.movie_details_fragment, container, false);
         String movieName = this.getArguments().getString("MovieName");
+        String backdropImage = this.getArguments().getString("backdrop_path");
+
+
+
+        poster = view.findViewById(R.id.imageMovie);
+        movieNameTV = view.findViewById(R.id.movieName);
+        YearTV = view.findViewById(R.id.movieYear);
+        descriptionTV = view.findViewById(R.id.description);
+        genreTV = view.findViewById(R.id.genreText);
+        castTV = view.findViewById(R.id.Cast_Text);
+        ratingBar = view.findViewById(R.id.ratingBarMovie);
+        directorTV = view.findViewById(R.id.directorText);
+        releasedTV = view.findViewById(R.id.releasedText);
+        countryTV = view.findViewById(R.id.Country_Text);
+
+        DownLoadImageTask downLoadImageTask = new DownLoadImageTask(poster);
+        downLoadImageTask.execute(backdropImage);
+
+
+        FloatingActionButton add = view.findViewById(R.id.floating_action_button);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.i("Flloyd","Clicked add" );
+            }
+        });
+
+
+
         getMovieDetails getMovieDetails = new getMovieDetails();
         getMovieDetails.execute(movieName);
-
-
-
         return view;
     }
 
@@ -51,7 +90,6 @@ public class MovieDetailsFragment extends Fragment {
                 JSONObject movieDetails = new JSONObject(result);
                 name = movieDetails.getString("Title");
                 year = movieDetails.getString("Year");
-                image = movieDetails.getString("Poster");
                 genre = movieDetails.getString("Genre");
                 cast = movieDetails.getString("Actors");
                 releaseDate = movieDetails.getString("Released");
@@ -60,10 +98,61 @@ public class MovieDetailsFragment extends Fragment {
                 description = movieDetails.getString("Plot");
                 rating = movieDetails.getString("imdbRating");
 
-                Log.i("Flloyd","Extracted Results:" + name + "\n" + year + "\n" + image + "\n" + genre + "\n" + cast + "\n" + releaseDate + "\n" + country + "\n" + director + "\n" + description + "\n" + rating);
+                Log.i("Flloyd","Extracted Results:" + name + "\n" + year + "\n" + genre + "\n" + cast + "\n" + releaseDate + "\n" + country + "\n" + director + "\n" + description + "\n" + rating);
             } catch (JSONException e) {
-                e.printStackTrace();
+
+                String NOT_FOUND = "Not Found";
+                name = NOT_FOUND;
+                year = NOT_FOUND;
+                genre = NOT_FOUND;
+                cast = NOT_FOUND;
+                releaseDate = NOT_FOUND;
+                country = NOT_FOUND;
+                director = NOT_FOUND;
+                description = NOT_FOUND;
+                rating = NOT_FOUND;
+
             }
+
+            movieNameTV.setText(name);
+            YearTV.setText(year);
+            descriptionTV.setText(description);
+            genreTV.setText(genre);
+            castTV.setText(cast);
+            directorTV.setText(director);
+            releasedTV.setText(releaseDate);
+            countryTV.setText(country);
+
+            Float ratingCalculated = (Float.parseFloat(rating))/2;
+            ratingBar.setRating(ratingCalculated);
+
+
         }
     }
+
+    private class DownLoadImageTask extends AsyncTask<String,Void, Bitmap> {
+        ImageView imageView;
+
+        public DownLoadImageTask(ImageView imageView){
+            this.imageView = imageView;
+        }
+
+        protected Bitmap doInBackground(String...urls){
+            String urlOfImage = urls[0];
+            Bitmap poster = null;
+            try{
+                InputStream is = new URL(urlOfImage).openStream();
+                poster = BitmapFactory.decodeStream(is);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return poster;
+        }
+
+        protected void onPostExecute(Bitmap result){
+            imageView.setImageBitmap(result);
+        }
+    }
+
+
 }

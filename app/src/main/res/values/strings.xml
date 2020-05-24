@@ -37,6 +37,13 @@
     <string name="top_movies_watched">Top Movies Watched</string>
     <string name="hello_user">Hello, \nUser</string>
     <string name="movie_search">Movie Search</string>
+    <string name="poster">Poster</string>
+    <string name="add">ADD</string>
+    <string name="country">Country:</string>
+    <string name="released">Released:</string>
+    <string name="director">Director:</string>
+    <string name="cast">Cast:</string>
+    <string name="genre">Genre:</string>
 
 
     <string-array name="State_array">
