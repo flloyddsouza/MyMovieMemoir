@@ -1,5 +1,6 @@
 package com.flloyd.mymoviememoir.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.flloyd.mymoviememoir.R;
@@ -27,9 +29,7 @@ import java.net.URL;
 
 public class MovieDetailsFragment extends Fragment {
 
-    private String name,year,genre,cast,releaseDate,country,director,description,rating;
-    private ImageView poster;
-    RatingBar ratingBar;
+    private RatingBar ratingBar;
     private TextView movieNameTV,YearTV,descriptionTV,genreTV,castTV,directorTV,releasedTV,countryTV;
 
     public MovieDetailsFragment() {
@@ -43,8 +43,7 @@ public class MovieDetailsFragment extends Fragment {
         String backdropImage = this.getArguments().getString("backdrop_path");
 
 
-
-        poster = view.findViewById(R.id.imageMovie);
+        ImageView poster = view.findViewById(R.id.imageMovie);
         movieNameTV = view.findViewById(R.id.movieName);
         YearTV = view.findViewById(R.id.movieYear);
         descriptionTV = view.findViewById(R.id.description);
@@ -63,8 +62,28 @@ public class MovieDetailsFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Log.i("Flloyd","Clicked add" );
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Add Movie to ?")
+                        .setMessage("You can add the movie to your Watchlist or to your Memoir.")
+                        .setPositiveButton("Watchlist", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d("Flloyd", "Watchlist");
+                            }
+                        })
+                        .setNegativeButton("Memoir", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d("Flloyd", "Movie Memoir");
+                            }
+                        })
+                        .setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
 
@@ -84,8 +103,7 @@ public class MovieDetailsFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             Log.i("Flloyd","Result of OMDb API:" + result);
-
-
+            String releaseDate, director, description, rating, country, cast, genre, year, name;
             try {
                 JSONObject movieDetails = new JSONObject(result);
                 name = movieDetails.getString("Title");
@@ -113,7 +131,6 @@ public class MovieDetailsFragment extends Fragment {
                 rating = NOT_FOUND;
 
             }
-
             movieNameTV.setText(name);
             YearTV.setText(year);
             descriptionTV.setText(description);
@@ -122,18 +139,15 @@ public class MovieDetailsFragment extends Fragment {
             directorTV.setText(director);
             releasedTV.setText(releaseDate);
             countryTV.setText(country);
-
-            Float ratingCalculated = (Float.parseFloat(rating))/2;
+            float ratingCalculated = (Float.parseFloat(rating))/2;
             ratingBar.setRating(ratingCalculated);
-
-
         }
     }
 
     private class DownLoadImageTask extends AsyncTask<String,Void, Bitmap> {
         ImageView imageView;
 
-        public DownLoadImageTask(ImageView imageView){
+        DownLoadImageTask(ImageView imageView){
             this.imageView = imageView;
         }
 
@@ -148,7 +162,6 @@ public class MovieDetailsFragment extends Fragment {
             }
             return poster;
         }
-
         protected void onPostExecute(Bitmap result){
             imageView.setImageBitmap(result);
         }

@@ -64,6 +64,7 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.5"
+                android:progressTint="#FFDF00"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

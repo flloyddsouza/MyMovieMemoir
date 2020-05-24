@@ -84,6 +84,7 @@
         android:isIndicator="true"
         android:numStars="5"
         android:stepSize="0.5"
+        android:progressTint="#FFDF00"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/movieYear"
@@ -113,12 +114,9 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toEndOf="@+id/genree"
         app:layout_constraintTop_toBottomOf="@+id/description" />
-
-
-
 
     <TextView
         android:id="@+id/castt"
@@ -141,14 +139,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:lines="2"
-        android:textSize="16sp"
         android:text="@string/place_holder"
         android:textColor="#000000"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toEndOf="@+id/castt"
         app:layout_constraintTop_toBottomOf="@+id/genreText" />
-
 
     <TextView
         android:id="@+id/directorBold"
@@ -164,6 +161,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Cast_Text" />
 
+
     <TextView
         android:id="@+id/directorText"
         android:layout_width="244dp"
@@ -173,10 +171,9 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toEndOf="@+id/directorBold"
         app:layout_constraintTop_toBottomOf="@+id/Cast_Text" />
-
 
     <TextView
         android:id="@+id/releasedBold"
@@ -192,6 +189,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/directorText" />
 
+
     <TextView
         android:id="@+id/releasedText"
         android:layout_width="244dp"
@@ -201,10 +199,9 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.189"
         app:layout_constraintStart_toEndOf="@+id/releasedBold"
         app:layout_constraintTop_toBottomOf="@+id/directorText" />
-
 
     <TextView
         android:id="@+id/country_Bold"
@@ -230,7 +227,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
+        app:layout_constraintHorizontal_bias="0.122"
         app:layout_constraintStart_toEndOf="@+id/country_Bold"
         app:layout_constraintTop_toBottomOf="@+id/releasedText" />
 
