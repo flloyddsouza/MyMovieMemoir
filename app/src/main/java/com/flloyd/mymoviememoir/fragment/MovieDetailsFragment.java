@@ -12,12 +12,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.flloyd.mymoviememoir.Entity.Movie;
 import com.flloyd.mymoviememoir.R;
 import com.flloyd.mymoviememoir.networkConnection.OMDbAPI;
+import com.flloyd.mymoviememoir.viewmodel.MovieViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,10 +32,17 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MovieDetailsFragment extends Fragment {
 
     private RatingBar ratingBar;
+    private MovieViewModel movieViewModel;
+    private ImageView poster;
     private TextView movieNameTV,YearTV,descriptionTV,genreTV,castTV,directorTV,releasedTV,countryTV;
 
     public MovieDetailsFragment() {
@@ -39,11 +52,9 @@ public class MovieDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.movie_details_fragment, container, false);
-        String movieName = this.getArguments().getString("MovieName");
-        String backdropImage = this.getArguments().getString("backdrop_path");
+        final String movieName = this.getArguments().getString("MovieName");
 
-
-        ImageView poster = view.findViewById(R.id.imageMovie);
+        poster = view.findViewById(R.id.imageMovie);
         movieNameTV = view.findViewById(R.id.movieName);
         YearTV = view.findViewById(R.id.movieYear);
         descriptionTV = view.findViewById(R.id.description);
@@ -54,9 +65,8 @@ public class MovieDetailsFragment extends Fragment {
         releasedTV = view.findViewById(R.id.releasedText);
         countryTV = view.findViewById(R.id.Country_Text);
 
-        DownLoadImageTask downLoadImageTask = new DownLoadImageTask(poster);
-        downLoadImageTask.execute(backdropImage);
-
+        movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        movieViewModel.initalizeVars((getActivity().getApplication()));
 
         FloatingActionButton add = view.findViewById(R.id.floating_action_button);
         add.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +79,36 @@ public class MovieDetailsFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Log.d("Flloyd", "Watchlist");
+
+                                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a");
+                                LocalDateTime now = LocalDateTime.now();
+                                final String mName = movieNameTV.getText().toString();
+                                final String reDate = releasedTV.getText().toString();
+                                final String addDAte = now.format(dtf);
+
+
+                                movieViewModel.getAllMovies().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
+                                    @Override
+                                    public void onChanged(@Nullable final List<Movie> movies)
+                                    {
+                                        Map<String,String> movieInDB =  new HashMap<>();
+                                        for (Movie temp : movies) {
+                                            movieInDB.put(temp.getMovieName(),temp.releaseDate);
+                                        }
+                                         boolean containsWatchlist = (movieInDB.containsKey(mName) && movieInDB.containsValue(reDate));
+                                         Log.d("Flloyd", "Temp : "+ containsWatchlist);
+
+                                         if (containsWatchlist)
+                                         {
+                                             Toast.makeText(getContext(), "Movie Already in Watchlist!", Toast.LENGTH_SHORT).show();
+                                         }
+                                         else{
+                                             Movie movie = new Movie(mName, reDate,addDAte);
+                                             movieViewModel.insert(movie);
+                                             Toast.makeText(getContext(), "Added to Watchlist!", Toast.LENGTH_SHORT).show();
+                                         }
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("Memoir", new DialogInterface.OnClickListener() {
@@ -82,12 +122,9 @@ public class MovieDetailsFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
-                        })
-                        .show();
+                        }).show();
             }
         });
-
-
 
         getMovieDetails getMovieDetails = new getMovieDetails();
         getMovieDetails.execute(movieName);
@@ -103,7 +140,7 @@ public class MovieDetailsFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             Log.i("Flloyd","Result of OMDb API:" + result);
-            String releaseDate, director, description, rating, country, cast, genre, year, name;
+            String releaseDate, director, description, rating, country, cast, genre, year, name, posterURL;
             try {
                 JSONObject movieDetails = new JSONObject(result);
                 name = movieDetails.getString("Title");
@@ -115,8 +152,9 @@ public class MovieDetailsFragment extends Fragment {
                 director = movieDetails.getString("Director");
                 description = movieDetails.getString("Plot");
                 rating = movieDetails.getString("imdbRating");
+                posterURL = movieDetails.getString("Poster");
 
-                Log.i("Flloyd","Extracted Results:" + name + "\n" + year + "\n" + genre + "\n" + cast + "\n" + releaseDate + "\n" + country + "\n" + director + "\n" + description + "\n" + rating);
+                Log.i("Flloyd","Extracted Results:" + name + "\n" + year + "\n" + genre + "\n" + cast + "\n" + releaseDate + "\n" + country + "\n" + director + "\n" + description + "\n" + rating +"\n" + poster);
             } catch (JSONException e) {
 
                 String NOT_FOUND = "Not Found";
@@ -129,6 +167,7 @@ public class MovieDetailsFragment extends Fragment {
                 director = NOT_FOUND;
                 description = NOT_FOUND;
                 rating = NOT_FOUND;
+                posterURL = NOT_FOUND;
 
             }
             movieNameTV.setText(name);
@@ -139,7 +178,16 @@ public class MovieDetailsFragment extends Fragment {
             directorTV.setText(director);
             releasedTV.setText(releaseDate);
             countryTV.setText(country);
-            float ratingCalculated = (Float.parseFloat(rating))/2;
+
+            DownLoadImageTask downLoadImageTask = new DownLoadImageTask(poster);
+            downLoadImageTask.execute(posterURL);
+
+            float ratingCalculated = 3.00f;
+            try {
+                ratingCalculated   = (Float.parseFloat(rating))/2;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             ratingBar.setRating(ratingCalculated);
         }
     }
@@ -166,6 +214,5 @@ public class MovieDetailsFragment extends Fragment {
             imageView.setImageBitmap(result);
         }
     }
-
 
 }

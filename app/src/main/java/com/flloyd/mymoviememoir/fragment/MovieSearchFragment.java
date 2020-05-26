@@ -51,6 +51,7 @@ public class MovieSearchFragment extends Fragment implements SearchView.OnQueryT
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
+
         return view;
     }
 
@@ -97,6 +98,8 @@ public class MovieSearchFragment extends Fragment implements SearchView.OnQueryT
     public boolean onQueryTextChange(String newText) {
         return false;
     }
+
+
 
     private void saveData(String movieName, String year, String image,String backdropImage) {
         SearchResult searchResult = new SearchResult(movieName,year.trim(),image,backdropImage);

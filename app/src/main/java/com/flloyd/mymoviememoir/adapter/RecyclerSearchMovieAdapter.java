@@ -115,7 +115,6 @@ public class RecyclerSearchMovieAdapter extends RecyclerView.Adapter<RecyclerSea
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("MovieName",searchResultList.get(position).getName());
-                bundle.putString("backdrop_path",searchResultList.get(position).getBackdropImage());
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

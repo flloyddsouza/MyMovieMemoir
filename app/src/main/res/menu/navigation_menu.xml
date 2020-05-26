@@ -10,7 +10,7 @@
 
 
     <item
-        android:id="@+id/addMessage"
-        android:title="test" />
+        android:id="@+id/watchlist"
+        android:title="Watchlist" />
 
 </menu>
