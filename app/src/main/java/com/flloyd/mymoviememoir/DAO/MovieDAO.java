@@ -38,7 +38,8 @@ public interface MovieDAO {
     @Query("DELETE FROM movie")
     void deleteAll();
 
+
     @Query("UPDATE movie SET movie_name=:movieName,release_date=:releaseDate, save_date_time=:saveDateTime WHERE uid = :id")
-            void updateByID(int id, String movieName, String releaseDate, String saveDateTime);
+    void updateByID(int id, String movieName, String releaseDate, String saveDateTime);
 
 }

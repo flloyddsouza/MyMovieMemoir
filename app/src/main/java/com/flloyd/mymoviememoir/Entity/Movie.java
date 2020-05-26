@@ -2,6 +2,7 @@ package com.flloyd.mymoviememoir.Entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -26,6 +27,15 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.saveDateTime = saveDateTime;
     }
+
+    @Ignore
+    public Movie(int uid,String movieName, String releaseDate,String saveDateTime){
+        this.uid = uid;
+        this.movieName = movieName;
+        this.releaseDate = releaseDate;
+        this.saveDateTime = saveDateTime;
+    }
+
 
     public int getId() {
         return uid;

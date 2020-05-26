@@ -53,6 +53,7 @@ public class MovieDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.movie_details_fragment, container, false);
         final String movieName = this.getArguments().getString("MovieName");
+        final boolean watchlist = this.getArguments().getBoolean("Watchlist");
 
         poster = view.findViewById(R.id.imageMovie);
         movieNameTV = view.findViewById(R.id.movieName);
@@ -72,49 +73,35 @@ public class MovieDetailsFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (watchlist) {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Add Movie to Memoir?")
+                            .setMessage("Are you sure you want to add the movie to Movie Memoir")
+                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) { addToMemoir(); }
+                            })
+                            .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) { dialog.dismiss(); }
+                            }).show();
+                }
+
+                else{
                 new AlertDialog.Builder(getContext())
                         .setTitle("Add Movie to ?")
                         .setMessage("You can add the movie to your Watchlist or to your Memoir.")
                         .setPositiveButton("Watchlist", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Flloyd", "Watchlist");
-
-                                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a");
-                                LocalDateTime now = LocalDateTime.now();
-                                final String mName = movieNameTV.getText().toString();
-                                final String reDate = releasedTV.getText().toString();
-                                final String addDAte = now.format(dtf);
-
-
-                                movieViewModel.getAllMovies().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
-                                    @Override
-                                    public void onChanged(@Nullable final List<Movie> movies)
-                                    {
-                                        Map<String,String> movieInDB =  new HashMap<>();
-                                        for (Movie temp : movies) {
-                                            movieInDB.put(temp.getMovieName(),temp.releaseDate);
-                                        }
-                                         boolean containsWatchlist = (movieInDB.containsKey(mName) && movieInDB.containsValue(reDate));
-                                         Log.d("Flloyd", "Temp : "+ containsWatchlist);
-
-                                         if (containsWatchlist)
-                                         {
-                                             Toast.makeText(getContext(), "Movie Already in Watchlist!", Toast.LENGTH_SHORT).show();
-                                         }
-                                         else{
-                                             Movie movie = new Movie(mName, reDate,addDAte);
-                                             movieViewModel.insert(movie);
-                                             Toast.makeText(getContext(), "Added to Watchlist!", Toast.LENGTH_SHORT).show();
-                                         }
-                                    }
-                                });
+                                addToWatchList();
                             }
                         })
                         .setNegativeButton("Memoir", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Flloyd", "Movie Memoir");
+                               addToMemoir();
                             }
                         })
                         .setNeutralButton("Close", new DialogInterface.OnClickListener() {
@@ -123,6 +110,7 @@ public class MovieDetailsFragment extends Fragment {
                                 dialog.dismiss();
                             }
                         }).show();
+            }
             }
         });
 
@@ -213,6 +201,42 @@ public class MovieDetailsFragment extends Fragment {
         protected void onPostExecute(Bitmap result){
             imageView.setImageBitmap(result);
         }
+    }
+
+    private void addToWatchList(){
+        Log.d("Flloyd", "Watchlist");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMM, yyyy h:mm a");
+        LocalDateTime now = LocalDateTime.now();
+        final String mName = movieNameTV.getText().toString();
+        final String reDate = releasedTV.getText().toString();
+        final String addDAte = now.format(dtf);
+
+        movieViewModel.getAllMovies().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable final List<Movie> movies)
+            {
+                Map<String,String> movieInDB =  new HashMap<>();
+                for (Movie temp : movies) {
+                    movieInDB.put(temp.getMovieName(),temp.releaseDate);
+                }
+                boolean containsWatchlist = (movieInDB.containsKey(mName) && movieInDB.containsValue(reDate));
+                Log.d("Flloyd", "Temp : "+ containsWatchlist);
+
+                if (containsWatchlist)
+                {
+                    Toast.makeText(getContext(), "Movie Already in Watchlist!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Movie movie = new Movie(mName, reDate,addDAte);
+                    movieViewModel.insert(movie);
+                    Toast.makeText(getContext(), "Added to Watchlist!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void addToMemoir(){
+        Log.d("Flloyd", "Movie Memoir");
     }
 
 }

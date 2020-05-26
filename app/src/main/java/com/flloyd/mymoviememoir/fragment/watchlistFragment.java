@@ -46,18 +46,13 @@ public class watchlistFragment  extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-
-
-
-
-
         movieViewModel.getAllMovies().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
                     @Override
                     public void onChanged(@Nullable final List<Movie> movies)
                     {
                         wishList.clear();
                         for (Movie temp : movies) {
-                            Movie movie = new Movie(temp.getMovieName(),temp.getReleaseDate(),temp.getSaveDateTime());
+                            Movie movie = new Movie(temp.getId(),temp.getMovieName(),temp.getReleaseDate(),temp.getSaveDateTime());
                             wishList.add(movie);
                         }
                         adapter.addWishListItem(wishList);

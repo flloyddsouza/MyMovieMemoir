@@ -15,14 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flloyd.mymoviememoir.Entity.Movie;
 import com.flloyd.mymoviememoir.R;
 import com.flloyd.mymoviememoir.fragment.MovieDetailsFragment;
-import com.flloyd.mymoviememoir.fragment.watchlistFragment;
 import com.flloyd.mymoviememoir.viewmodel.MovieViewModel;
 
 import java.util.List;
@@ -96,6 +93,7 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
                             public void onClick(DialogInterface dialog, int which) {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("MovieName",wishList.get(position).movieName);
+                                bundle.putBoolean("Watchlist",true);
                                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -106,9 +104,24 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
                         })
                         .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                          @Override
-                         public void onClick(DialogInterface dialog, int which) {
-                            Log.d("Flloyd", "Delete");
-                             movieViewModel.deleteAll();
+                         public void onClick(final DialogInterface dialogd, int which) {
+                             Log.d("Flloyd", "Delete");
+                            new AlertDialog.Builder(view.getContext())
+                            .setTitle("Alert")
+                            .setMessage("Are you sure you want to delete " + movie.getMovieName() + " from watchlist?")
+                            .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    movieViewModel.delete(movie);
+                                }
+                            })
+                            .setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    dialogd.dismiss();
+                                }
+                            }).show();
                             }
                         })
                         .setNeutralButton("Close", new DialogInterface.OnClickListener() {
@@ -117,12 +130,8 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
                                 dialog.dismiss();
                             }
                         }).show();
-
-
-
             }
         });
-
 
     }
 }
