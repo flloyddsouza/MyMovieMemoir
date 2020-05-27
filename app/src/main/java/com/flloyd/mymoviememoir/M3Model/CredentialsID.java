@@ -1,17 +1,26 @@
 package com.flloyd.mymoviememoir.M3Model;
 
-public class Credentials {
-
+public class CredentialsID {
+    private String credentialid;
     private String username;
     private String password;
     private String signupdate;
     private PersonID personid;
 
 
-    public Credentials( String username, String password, String signupdate) {
+    public CredentialsID( String credentialid, String username, String password, String signupdate) {
+        this.credentialid = credentialid;
         this.username = username;
         this.password = password;
         this.signupdate = signupdate + "T00:00:00+11:00";
+    }
+
+    public String getCredentialid() {
+        return credentialid;
+    }
+
+    public void setCredentialid(String credentialid) {
+        this.credentialid = credentialid;
     }
 
     public String getUsername() {
@@ -45,5 +54,4 @@ public class Credentials {
     public void setPersonid(PersonID personid) {
         this.personid = personid;
     }
-
 }

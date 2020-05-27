@@ -16,7 +16,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -43,6 +46,7 @@ public class MovieDetailsFragment extends Fragment {
     private RatingBar ratingBar;
     private MovieViewModel movieViewModel;
     private ImageView poster;
+    private String posterURL;
     private TextView movieNameTV,YearTV,descriptionTV,genreTV,castTV,directorTV,releasedTV,countryTV;
 
     public MovieDetailsFragment() {
@@ -72,7 +76,7 @@ public class MovieDetailsFragment extends Fragment {
         FloatingActionButton add = view.findViewById(R.id.floating_action_button);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
                 if (watchlist) {
                     new AlertDialog.Builder(getContext())
@@ -80,7 +84,9 @@ public class MovieDetailsFragment extends Fragment {
                             .setMessage("Are you sure you want to add the movie to Movie Memoir")
                             .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) { addToMemoir(); }
+                                public void onClick(DialogInterface dialog, int which) {
+                                    addToMemoir(view,movieName,releasedTV.getText().toString(),posterURL);
+                                }
                             })
                             .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
@@ -101,7 +107,7 @@ public class MovieDetailsFragment extends Fragment {
                         .setNegativeButton("Memoir", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                               addToMemoir();
+                                addToMemoir(view,movieName,releasedTV.getText().toString(),posterURL);
                             }
                         })
                         .setNeutralButton("Close", new DialogInterface.OnClickListener() {
@@ -128,7 +134,7 @@ public class MovieDetailsFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             Log.i("Flloyd","Result of OMDb API:" + result);
-            String releaseDate, director, description, rating, country, cast, genre, year, name, posterURL;
+            String releaseDate, director, description, rating, country, cast, genre, year, name;
             try {
                 JSONObject movieDetails = new JSONObject(result);
                 name = movieDetails.getString("Title");
@@ -227,16 +233,26 @@ public class MovieDetailsFragment extends Fragment {
                     Toast.makeText(getContext(), "Movie Already in Watchlist!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Movie movie = new Movie(mName, reDate,addDAte);
-                    movieViewModel.insert(movie);
-                    Toast.makeText(getContext(), "Added to Watchlist!", Toast.LENGTH_SHORT).show();
-                }
+                Movie movie = new Movie(mName, reDate,addDAte);
+                movieViewModel.insert(movie);
+                Toast.makeText(getContext(), "Added to Watchlist!", Toast.LENGTH_SHORT).show();
+            }
             }
         });
     }
 
-    private void addToMemoir(){
+    private void addToMemoir(View view, String movieName, String releasedDate, String imageURL){
         Log.d("Flloyd", "Movie Memoir");
+        Bundle bundle = new Bundle();
+        bundle.putString("MovieName",movieName);
+        bundle.putString("ReleasedDate",releasedDate);
+        bundle.putString("Image",imageURL);
+        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame,AddToMemoir.class,bundle);
+        fragmentTransaction.addToBackStack("tag");
+        fragmentTransaction.commit();
     }
 
 }

@@ -2,7 +2,6 @@ package com.flloyd.mymoviememoir.M3Model;
 
 public class Person {
 
-    private Integer personid;
     private String personfname;
     private String personlname;
     private String gender;
@@ -11,8 +10,7 @@ public class Person {
     private String statecode;
     private String postcode;
 
-    public Person(Integer personid, String personfname, String personlname, String gender, String dob, String streetaddress, String statecode, String postcode) {
-        this.personid = personid;
+    public Person( String personfname, String personlname, String gender, String dob, String streetaddress, String statecode, String postcode) {
         this.personfname = personfname;
         this.personlname = personlname;
         this.gender = gender;
@@ -20,14 +18,6 @@ public class Person {
         this.streetaddress = streetaddress;
         this.statecode = statecode;
         this.postcode = postcode;
-    }
-
-    public Integer getPersonid() {
-        return personid;
-    }
-
-    public void setPersonid(Integer personid) {
-        this.personid = personid;
     }
 
     public String getPersonfname() {

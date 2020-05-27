@@ -44,6 +44,7 @@
     <string name="director">Director:</string>
     <string name="cast">Cast:</string>
     <string name="genre">Genre:</string>
+    <string name="enter_watch_date_and_time">Enter Watch Date and Time</string>
 
 
     <string-array name="State_array">

@@ -20,7 +20,7 @@ import com.flloyd.mymoviememoir.viewmodel.MovieViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class watchlistFragment  extends Fragment {
+public class WatchListFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -28,7 +28,7 @@ public class watchlistFragment  extends Fragment {
     private RecyclerWishListAdapter adapter;
 
     MovieViewModel movieViewModel;
-    public watchlistFragment() {
+    public WatchListFragment() {
     }
 
 

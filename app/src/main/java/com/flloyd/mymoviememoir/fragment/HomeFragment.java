@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy");
         LocalDateTime now = LocalDateTime.now();
         String Date = now.format(dtf);
-        String id, firstName;
+
 
         networkConnection = new NetworkConnection();
         topMovies = new ArrayList<>();
@@ -73,15 +73,15 @@ public class HomeFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-
+        String id, firstName;
         SharedPreferences sharedPref= getActivity().getSharedPreferences("DATA", Context.MODE_PRIVATE);
         String credential= sharedPref.getString("Credential",null);
         Log.i("Flloyd: ", "DATA in Home :" + credential);
         try {
             JSONArray jsonArrayCredentials = new JSONArray(credential);
-            id = jsonArrayCredentials.getJSONObject(0).get("credentialid").toString();
+            id = jsonArrayCredentials.getJSONObject(0).getString("credentialid");
             JSONObject j = (JSONObject) jsonArrayCredentials.getJSONObject(0).get("personid");
-            firstName = j.get("personfname").toString();
+            firstName = j.getString("personfname");
         } catch (Exception e) {
             id = "0";
             firstName = "User0";
