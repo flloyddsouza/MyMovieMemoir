@@ -2,14 +2,18 @@ package com.flloyd.mymoviememoir.networkConnection;
 
 import android.util.Log;
 
+import com.flloyd.mymoviememoir.M3Model.Cinema;
+import com.flloyd.mymoviememoir.M3Model.CinemaID;
 import com.flloyd.mymoviememoir.M3Model.Credentials;
 import com.flloyd.mymoviememoir.M3Model.CredentialsID;
+import com.flloyd.mymoviememoir.M3Model.Memoir;
 import com.flloyd.mymoviememoir.M3Model.Person;
 import com.flloyd.mymoviememoir.M3Model.PersonID;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -134,6 +138,33 @@ public class NetworkConnection {
     }
 
 
+    public String addCinema(String cinemaName, String postcode){
+        Cinema cinema = new Cinema(cinemaName,postcode);
+        Gson gson = new Gson();
+        String cinemaJson = gson.toJson(cinema);
+        String strResponse = "NULL";
+        Log.i("json " , cinemaJson);
+        String methodPath = "restws.cinema/";
+        RequestBody body = RequestBody.create(cinemaJson, JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + methodPath)
+                .post(body)
+                .build();
+        try {
+            Response response= client.newCall(request).execute();
+            strResponse= response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "ERROR";
+        }
+
+        if(strResponse.trim().isEmpty())
+            return "OK";
+        else
+            return  "ERROR";
+    }
+
+
     public String register(String fName, String lName, String gender, String DOB, String streetAddress,
                            String stateCode, String postCode, String email, String password)  {
 
@@ -235,5 +266,85 @@ public class NetworkConnection {
         }
         return jsonArray;
     }
+
+
+    public JSONArray getCinema() {
+        final String methodPath = "restws.cinema";
+        Log.i("Flloyd", "request" + methodPath);
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            results = response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONArray jsonArray;
+        try {
+            jsonArray = new JSONArray(results);
+        } catch (Exception e) {
+            return null;
+        }
+        return jsonArray;
+    }
+
+    public String addMemoir( String moviename, String releasedate, String watchdate, String watchtime,
+                             String review, String rating,String personid,String cinemaid){
+
+        PersonID personID;
+        CinemaID cinemaID;
+        try {
+            JSONObject person = new JSONObject(personid);
+            String personId = person.getString("personid");
+            String personFName = person.getString("personfname");
+            String personLName = person.getString("personlname");
+            String Gender = person.getString("gender");
+            String DOB = person.getString("dob");
+            String StreetAddress = person.getString("streetaddress");
+            String state = person.getString("statecode");
+            String postCode = person.getString("postcode");
+            personID = new PersonID(personId, personFName, personLName, Gender, "REPLACE", StreetAddress, state, postCode);
+            personID.setDob(DOB);
+
+
+            JSONObject cinema = new JSONObject(cinemaid);
+            String cinemaId = cinema.getString("cinemaid");
+            String cinemaName =cinema.getString("cinemaname");
+            String CinemaPostCode = cinema.getString("cinemapostcode");
+            cinemaID = new CinemaID(cinemaId,cinemaName,CinemaPostCode);
+
+        }
+        catch (Exception e){
+            return "ERROR";
+        }
+
+        Memoir memoir = new Memoir(moviename,releasedate,watchdate,watchtime,review,rating);
+        memoir.setPersonid(personID);
+        memoir.setCinemaid(cinemaID);
+        Gson gson = new Gson();
+        String memoirJson = gson.toJson(memoir);
+        String strResponse = "NULL";
+        Log.i("json " , memoirJson);
+        String methodPath = "restws.memoir/";
+        RequestBody body = RequestBody.create(memoirJson, JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + methodPath)
+                .post(body)
+                .build();
+        try {
+            Response response= client.newCall(request).execute();
+            strResponse= response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "ERROR";
+        }
+
+        if(strResponse.trim().isEmpty())
+            return "OK";
+        else
+            return  "ERROR";
+    }
+
 
 }

@@ -81,13 +81,7 @@ public class Login extends AppCompatActivity {
     private class Authenticate extends AsyncTask<String, Void, JSONArray> {
 
         @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
         protected JSONArray doInBackground(@NotNull String... params) {
-
             return networkConnection.getCredentials(params[0],params[1]);
         }
 

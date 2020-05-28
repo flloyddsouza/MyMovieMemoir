@@ -21,6 +21,7 @@ import com.flloyd.mymoviememoir.Entity.Movie;
 import com.flloyd.mymoviememoir.R;
 import com.flloyd.mymoviememoir.fragment.MovieDetailsFragment;
 import com.flloyd.mymoviememoir.viewmodel.MovieViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                new AlertDialog.Builder(view.getContext())
+                new MaterialAlertDialogBuilder(view.getContext())
                         .setTitle(movie.getMovieName())
                         .setPositiveButton("View", new DialogInterface.OnClickListener() {
                             @Override
@@ -106,7 +107,7 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
                          @Override
                          public void onClick(final DialogInterface dialogd, int which) {
                              Log.d("Flloyd", "Delete");
-                            new AlertDialog.Builder(view.getContext())
+                            new MaterialAlertDialogBuilder(view.getContext())
                             .setTitle("Alert")
                             .setMessage("Are you sure you want to delete " + movie.getMovieName() + " from watchlist?")
                             .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {

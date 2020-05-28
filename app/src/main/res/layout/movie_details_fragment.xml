@@ -10,10 +10,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF"
     android:orientation="vertical">
-
-
 
     <ImageView
         android:id="@+id/imageMovie"
@@ -238,13 +235,13 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/add"
         android:clickable="true"
+        app:srcCompat="@drawable/plus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageMovie"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageMovie"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/plus"
         />
 
 

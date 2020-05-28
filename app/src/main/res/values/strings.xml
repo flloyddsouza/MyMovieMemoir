@@ -45,6 +45,16 @@
     <string name="cast">Cast:</string>
     <string name="genre">Genre:</string>
     <string name="enter_watch_date_and_time">Enter Watch Date and Time</string>
+    <string name="cinema_post_code">Cinema Post Code</string>
+    <string name="cinema_name">Cinema Name</string>
+    <string name="addtomemoir">Add</string>
+    <string name="comments">Comments</string>
+    <string name="comment_and_rating">Comment and Rating</string>
+    <string name="add_new_cinema">Add New Cinema</string>
+    <string name="cinema_details">Cinema Details</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
+    <string name="watch_date_and_time">Watch Date and Time</string>
 
 
     <string-array name="State_array">
