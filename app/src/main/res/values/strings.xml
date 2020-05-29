@@ -55,6 +55,16 @@
     <string name="time">Time</string>
     <string name="date">Date</string>
     <string name="watch_date_and_time">Watch Date and Time</string>
+    <string name="movie_memoir">Movie Memoir</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="poster_of_movie">Poster Of Movie</string>
+    <string name="watched">Watched:</string>
+    <string name="location">Location:</string>
+    <string name="sort_by_date">Sort By Date</string>
+    <string name="sort_by_your_rating">Sort By your Rating</string>
+    <string name="sort_by_public_rating">Sort By Public Rating</string>
+    <string name="image">image</string>
+    <string name="user0">User0</string>
 
 
     <string-array name="State_array">

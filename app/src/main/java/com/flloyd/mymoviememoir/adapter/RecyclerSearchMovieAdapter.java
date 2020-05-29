@@ -115,6 +115,8 @@ public class RecyclerSearchMovieAdapter extends RecyclerView.Adapter<RecyclerSea
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("MovieName",searchResultList.get(position).getName());
+                bundle.putBoolean("Watchlist",false);
+                bundle.putBoolean("Memoir",false);
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

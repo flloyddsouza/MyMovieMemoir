@@ -347,4 +347,24 @@ public class NetworkConnection {
     }
 
 
+    public JSONArray getMemoir(String personID) {
+        final String methodPath = "restws.memoir/findByPersonID/" + personID;
+        Log.i("Flloyd", "request" + methodPath);
+        Request.Builder builder = new Request.Builder();
+        builder.url(BASE_URL + methodPath);
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            results = response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONArray jsonArray;
+        try {
+            jsonArray = new JSONArray(results);
+        } catch (Exception e) {
+            return null;
+        }
+        return jsonArray;
+    }
 }

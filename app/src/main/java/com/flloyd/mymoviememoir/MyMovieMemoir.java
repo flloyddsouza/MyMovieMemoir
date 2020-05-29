@@ -1,5 +1,9 @@
 package com.flloyd.mymoviememoir;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,10 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-import android.view.MenuItem;
-
 import com.flloyd.mymoviememoir.fragment.HomeFragment;
+import com.flloyd.mymoviememoir.fragment.MovieMemoirFragment;
 import com.flloyd.mymoviememoir.fragment.MovieSearchFragment;
 import com.flloyd.mymoviememoir.fragment.WatchListFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -27,8 +29,6 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_movie_memoir);
-
-
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -61,6 +61,7 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -73,6 +74,9 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
                 break;
             case R.id.watchlist:
                 replaceFragment(new WatchListFragment());
+                break;
+            case  R.id.MovieMemoir:
+                replaceFragment( new MovieMemoirFragment());
                 break;
         }
         //this code closes the drawer after you selected an item from the menu, otherwise stay open

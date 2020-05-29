@@ -58,6 +58,7 @@ public class MovieDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.movie_details_fragment, container, false);
         final String movieName = this.getArguments().getString("MovieName");
         final boolean watchlist = this.getArguments().getBoolean("Watchlist");
+        final boolean memoir = this.getArguments().getBoolean("Memoir");
 
         poster = view.findViewById(R.id.imageMovie);
         movieNameTV = view.findViewById(R.id.movieName);
@@ -73,10 +74,15 @@ public class MovieDetailsFragment extends Fragment {
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         movieViewModel.initalizeVars((getActivity().getApplication()));
 
+
         FloatingActionButton add = view.findViewById(R.id.floating_action_button);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+
+                if (memoir) {
+                    Toast.makeText(getContext(), "Movie Already in Memoir!", Toast.LENGTH_SHORT).show();
+                }else{
 
                 if (watchlist) {
                     new AlertDialog.Builder(getContext())
@@ -85,37 +91,39 @@ public class MovieDetailsFragment extends Fragment {
                             .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    addToMemoir(view,movieName,releasedTV.getText().toString(),posterURL);
+                                    addToMemoir(view, movieName, releasedTV.getText().toString(), posterURL);
                                 }
                             })
                             .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) { dialog.dismiss(); }
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                } else {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Add Movie to ?")
+                            .setMessage("You can add the movie to your Watchlist or to your Memoir.")
+                            .setPositiveButton("Watchlist", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    addToWatchList();
+                                }
+                            })
+                            .setNegativeButton("Memoir", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    addToMemoir(view, movieName, releasedTV.getText().toString(), posterURL);
+                                }
+                            })
+                            .setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
                             }).show();
                 }
 
-                else{
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Add Movie to ?")
-                        .setMessage("You can add the movie to your Watchlist or to your Memoir.")
-                        .setPositiveButton("Watchlist", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                addToWatchList();
-                            }
-                        })
-                        .setNegativeButton("Memoir", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                addToMemoir(view,movieName,releasedTV.getText().toString(),posterURL);
-                            }
-                        })
-                        .setNeutralButton("Close", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
             }
             }
         });

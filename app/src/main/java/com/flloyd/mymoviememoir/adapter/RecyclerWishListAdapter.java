@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
@@ -34,6 +33,7 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
         TextView movieName;
         TextView releaseDate;
         TextView addDateTime;
+        TextView comment;
         CardView parent;
 
         public ViewHolder(View itemView) {
@@ -41,6 +41,7 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
             movieName = itemView.findViewById(R.id.movieNameWish);
             releaseDate = itemView.findViewById(R.id.dateWish);
             addDateTime = itemView.findViewById(R.id.dateAdded);
+            comment = itemView.findViewById(R.id.commentMemoir);
             parent = itemView.findViewById(R.id.cv_watchlist);
         }
     }
@@ -95,6 +96,7 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
                                 Bundle bundle = new Bundle();
                                 bundle.putString("MovieName",wishList.get(position).movieName);
                                 bundle.putBoolean("Watchlist",true);
+                                bundle.putBoolean("Memoir",false);
                                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

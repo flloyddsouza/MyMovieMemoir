@@ -25,7 +25,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.flloyd.mymoviememoir.M3Model.CinemaID;
 import com.flloyd.mymoviememoir.R;
@@ -55,6 +58,7 @@ public class AddToMemoir extends Fragment {
     private final Calendar myCalendar = Calendar.getInstance();
     private NetworkConnection networkConnection = null;
     private ArrayAdapter<String> spinnerArrayAdapter;
+    private View LayoutView;
     private List<CinemaID> cinemaObjectList = new ArrayList<>();
 
     public AddToMemoir() {
@@ -62,6 +66,7 @@ public class AddToMemoir extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.add_to_memoir_fragment, container, false);
+        LayoutView = view;
         final String movieName = this.getArguments().getString("MovieName");
         final String releasedDate = this.getArguments().getString("ReleasedDate");
         final String imageURL = this.getArguments().getString("Image");
@@ -204,19 +209,13 @@ public class AddToMemoir extends Fragment {
                 float rating = ratingBar.getRating();
                 String ratingStar = Float.toString(rating);
 
-
                 if( validateMemoir(view,date,time,comments,rating)){
                     Log.i("Flloyd ", "Memoir Data " + movieName + "\n" + finalRDate + "\n" + date + "\n" + time + "\n" + comments + "\n" + ratingStar + "\n" + finalPersonID + "\n" + cinemaID );
                     AddToMemoirDatabase addToMemoirDatabase = new AddToMemoirDatabase();
                     addToMemoirDatabase.execute(movieName,finalRDate,date,time,comments,ratingStar,finalPersonID,cinemaID);
                 }
-
             }
         });
-
-
-
-
 
         return view;
     }
@@ -302,8 +301,7 @@ public class AddToMemoir extends Fragment {
             Log.i("Flloyd ","result: " + result);
             if (result.equals("OK")) {
                 Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
-                getCinema getCinema = new getCinema();
-                getCinema.execute();
+                newMemoirFragment(LayoutView);
             }
             else if(result.equals("ERROR")) {
                 Toast.makeText(getContext(), "Unsuccessful", Toast.LENGTH_SHORT).show();
@@ -404,6 +402,14 @@ public class AddToMemoir extends Fragment {
         }
         Gson gson = new Gson();
         return gson.toJson(cinema);
+    }
+
+    private void newMemoirFragment(@NotNull View view){
+        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, new MovieMemoirFragment());
+        fragmentTransaction.commit();
     }
 
 }

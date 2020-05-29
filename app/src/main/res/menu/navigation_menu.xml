@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="none">
     <item
         android:id="@+id/home"
+        android:icon="@drawable/home"
         android:title="@string/home" />
 
     <item
         android:id="@+id/displayMessage"
+        android:icon="@drawable/search"
         android:title="@string/movie_search" />
 
 
     <item
         android:id="@+id/watchlist"
-        android:title="Watchlist" />
+        android:icon="@drawable/watch"
+        android:title="@string/watchlist" />
 
+    <item
+        android:id="@+id/MovieMemoir"
+        android:icon="@drawable/movie"
+        android:title="@string/movie_memoir" />
+
+    </group>
 </menu>
