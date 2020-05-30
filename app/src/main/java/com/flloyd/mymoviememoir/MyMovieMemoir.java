@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.flloyd.mymoviememoir.fragment.BarFragment;
 import com.flloyd.mymoviememoir.fragment.HomeFragment;
 import com.flloyd.mymoviememoir.fragment.MovieMemoirFragment;
 import com.flloyd.mymoviememoir.fragment.MovieSearchFragment;

@@ -69,10 +69,7 @@
     <string name="starting_date">Starting Date</string>
     <string name="ending_date">Ending Date</string>
     <string name="set">SET</string>
-
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-
+    <string name="year">Year :</string>
 
     <string-array name="State_array">
         <item>NSW</item>
@@ -82,6 +79,17 @@
         <item>TAS</item>
         <item>VIC</item>
         <item>WA</item>
+    </string-array>
+
+
+
+    <string-array name="year_array">
+        <item>2020</item>
+        <item>2019</item>
+        <item>2018</item>
+        <item>2017</item>
+        <item>2016</item>
+        <item>2015</item>
     </string-array>
 
 </resources>

@@ -30,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +42,6 @@ public class PieChartFragment  extends Fragment {
 
     private String personID = "0";
     private EditText startDate, endDate;
-    private Button set;
     private PieChart pieChart;
     private List<PieEntry> value;
     private final Calendar myCalendar = Calendar.getInstance();
@@ -68,7 +66,7 @@ public class PieChartFragment  extends Fragment {
         pieChart = view.findViewById(R.id.pieChart1);
         startDate = view.findViewById(R.id.startDate);
         endDate = view.findViewById(R.id.endDate);
-        set = view.findViewById(R.id.setDate);
+        Button set = view.findViewById(R.id.setDate);
         networkConnection = new NetworkConnection();
 
 
@@ -134,7 +132,7 @@ public class PieChartFragment  extends Fragment {
 
 
         pieChart.setUsePercentValues(true);
-        pieChart.setEntryLabelTextSize(19f);
+        pieChart.setEntryLabelTextSize(12f);
 
 
         value = new ArrayList<>();
@@ -176,9 +174,10 @@ public class PieChartFragment  extends Fragment {
                 }
 
                 PieDataSet pieDataSet = new PieDataSet(value,"Post Codes");
-                pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+                pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
                 PieData pieData = new PieData(pieDataSet);
                 pieChart.setData(pieData);
+                pieChart.invalidate();
             }
 
         }
@@ -194,13 +193,13 @@ public class PieChartFragment  extends Fragment {
         getMoviesWatchedPerPostCode.execute(personID,startDateText,endDateText);
     }
 
-    private boolean validateDates(View view, String startDate,String endDate){
+    private boolean validateDates(@NotNull View view, @NotNull String startDate, String endDate){
 
         boolean valid = true;
         TextInputLayout dateLayout = view.findViewById(R.id.input_layout_startDate);
         if (!startDate.isEmpty()){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-            Date d1 = null;
+            Date d1;
             Date current = new Date(System.currentTimeMillis());
             try {
                 d1 = sdf.parse(startDate);
@@ -224,8 +223,8 @@ public class PieChartFragment  extends Fragment {
         TextInputLayout endDateLayout = view.findViewById(R.id.input_layout_endingDate);
         if (!endDate.isEmpty()){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-            Date d1 = null;
-            Date d2 = null;
+            Date d1;
+            Date d2;
             Date current = new Date(System.currentTimeMillis());
             try {
                 d1 = sdf.parse(startDate);
