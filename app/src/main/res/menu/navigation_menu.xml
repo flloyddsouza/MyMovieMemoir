@@ -24,5 +24,11 @@
         android:icon="@drawable/movie"
         android:title="@string/movie_memoir" />
 
+        <item
+            android:id="@+id/Report"
+            android:icon="@drawable/report"
+            android:title="@string/report_menu" />
+
+
     </group>
 </menu>

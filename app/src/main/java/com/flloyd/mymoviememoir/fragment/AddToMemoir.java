@@ -351,16 +351,17 @@ public class AddToMemoir extends Fragment {
             Date current = new Date(System.currentTimeMillis());
             try {
                 d1 = sdf.parse(date);
+                if(d1.compareTo(current) > 0) {
+                    dateLayout.setError("Invalid Date");
+                    valid = false;
+                } else{
+                    dateLayout.setError(null);
+                }
             } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            assert d1 != null;
-            if(d1.compareTo(current) > 0) {
                 dateLayout.setError("Invalid Date");
                 valid = false;
-            } else{
-                dateLayout.setError(null);
             }
+
         }else{
             dateLayout.setError("Select Date");
             valid = false;

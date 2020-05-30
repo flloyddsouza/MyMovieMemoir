@@ -2,7 +2,6 @@ package com.flloyd.mymoviememoir;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +15,11 @@ import androidx.fragment.app.FragmentTransaction;
 import com.flloyd.mymoviememoir.fragment.HomeFragment;
 import com.flloyd.mymoviememoir.fragment.MovieMemoirFragment;
 import com.flloyd.mymoviememoir.fragment.MovieSearchFragment;
+import com.flloyd.mymoviememoir.fragment.ReportFragment;
 import com.flloyd.mymoviememoir.fragment.WatchListFragment;
 import com.google.android.material.navigation.NavigationView;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,7 +42,6 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        //these two lines of code show the navicon drawer icon top left hand side
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         navigationView.setNavigationItemSelectedListener(this);
@@ -55,7 +56,7 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
         if (toggle.onOptionsItemSelected(item))
             return true;
         return super.onOptionsItemSelected(item);
@@ -78,8 +79,11 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
             case  R.id.MovieMemoir:
                 replaceFragment( new MovieMemoirFragment());
                 break;
+            case  R.id.Report:
+                replaceFragment( new ReportFragment());
+                break;
         }
-        //this code closes the drawer after you selected an item from the menu, otherwise stay open
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -59,7 +59,7 @@ public class MovieMemoirFragment extends Fragment {
 
         SharedPreferences sharedPref= getActivity().getSharedPreferences("DATA", Context.MODE_PRIVATE);
         String credential= sharedPref.getString("Credential",null);
-        Log.i("Flloyd: ", "DATA in Home :" + credential);
+        Log.i("Flloyd: ", "DATA in Movie Memoir :" + credential);
         try {
             JSONArray jsonArrayCredentials = new JSONArray(credential);
             JSONObject j = (JSONObject) jsonArrayCredentials.getJSONObject(0).get("personid");
@@ -116,7 +116,7 @@ public class MovieMemoirFragment extends Fragment {
 
                         MemoirCard memoirCard = new MemoirCard(sortedJsonArray.getJSONObject(i).getString("moviename"),
                                                                releaseDate, watchDate, postCode,
-                                sortedJsonArray.getJSONObject(i).getString("review"), rating);
+                                                               sortedJsonArray.getJSONObject(i).getString("review"), rating);
 
                         memoirCardList.add(memoirCard);
                         adapter.addMemoirListItem(memoirCardList);

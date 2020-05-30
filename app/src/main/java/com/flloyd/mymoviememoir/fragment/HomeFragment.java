@@ -35,8 +35,6 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private NetworkConnection networkConnection = null;
-    private TextView userName, currentDate;
-    private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<TopMovie> topMovies;
@@ -63,9 +61,9 @@ public class HomeFragment extends Fragment {
         networkConnection = new NetworkConnection();
         topMovies = new ArrayList<>();
 
-        userName = view.findViewById(R.id.textView);
-        currentDate = view.findViewById(R.id.dateText);
-        recyclerView = view.findViewById(R.id.recyclerView);
+        TextView userName = view.findViewById(R.id.textView);
+        TextView currentDate = view.findViewById(R.id.dateText);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         adapter = new RecyclerViewAdapter(topMovies);
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(getContext());
@@ -120,10 +118,10 @@ public class HomeFragment extends Fragment {
                         dateText = result.getJSONObject(i).getString("releaseDate");
                         rating = Double.parseDouble(ratingText);
                         releaseDate = format.parse(dateText);
+                        saveData(movieName, rating, releaseDate);
                     } catch (JSONException | ParseException e) {
                         e.printStackTrace();
                     }
-                    saveData(movieName, rating, releaseDate);
                 }
             }
         }
