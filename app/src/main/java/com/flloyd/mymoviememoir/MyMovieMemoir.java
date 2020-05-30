@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.flloyd.mymoviememoir.fragment.BarFragment;
 import com.flloyd.mymoviememoir.fragment.HomeFragment;
+import com.flloyd.mymoviememoir.fragment.MapFragment;
 import com.flloyd.mymoviememoir.fragment.MovieMemoirFragment;
 import com.flloyd.mymoviememoir.fragment.MovieSearchFragment;
 import com.flloyd.mymoviememoir.fragment.ReportFragment;
@@ -83,6 +83,10 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
             case  R.id.Report:
                 replaceFragment( new ReportFragment());
                 break;
+            case  R.id.mapsPage:
+                replaceFragment(new MapFragment());
+                break;
+
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

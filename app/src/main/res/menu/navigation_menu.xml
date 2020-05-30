@@ -29,6 +29,11 @@
             android:icon="@drawable/report"
             android:title="@string/report_menu" />
 
+        <item
+            android:id="@+id/mapsPage"
+            android:icon="@drawable/maps"
+            android:title="@string/map" />
+
 
     </group>
 </menu>
