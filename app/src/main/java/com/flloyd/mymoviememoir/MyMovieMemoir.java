@@ -26,7 +26,6 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
-    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,7 @@ public class MyMovieMemoir  extends AppCompatActivity implements NavigationView.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nv);
+        NavigationView navigationView = findViewById(R.id.nv);
         toggle = new ActionBarDrawerToggle(this,
                 drawerLayout,R.string.Open,R.string.Close);
         drawerLayout.addDrawerListener(toggle);

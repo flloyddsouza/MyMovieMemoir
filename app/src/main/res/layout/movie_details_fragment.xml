@@ -111,7 +111,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="0.916"
         app:layout_constraintStart_toEndOf="@+id/genree"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
@@ -140,7 +140,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintHorizontal_bias="0.264"
         app:layout_constraintStart_toEndOf="@+id/castt"
         app:layout_constraintTop_toBottomOf="@+id/genreText" />
 
@@ -168,7 +168,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintHorizontal_bias="0.272"
         app:layout_constraintStart_toEndOf="@+id/directorBold"
         app:layout_constraintTop_toBottomOf="@+id/Cast_Text" />
 
@@ -196,7 +196,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.189"
+        app:layout_constraintHorizontal_bias="0.278"
         app:layout_constraintStart_toEndOf="@+id/releasedBold"
         app:layout_constraintTop_toBottomOf="@+id/directorText" />
 
@@ -224,7 +224,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.122"
+        app:layout_constraintHorizontal_bias="0.288"
         app:layout_constraintStart_toEndOf="@+id/country_Bold"
         app:layout_constraintTop_toBottomOf="@+id/releasedText" />
 

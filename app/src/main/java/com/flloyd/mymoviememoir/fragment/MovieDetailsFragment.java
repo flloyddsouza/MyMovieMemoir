@@ -1,8 +1,12 @@
 package com.flloyd.mymoviememoir.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -94,9 +98,10 @@ public class MovieDetailsFragment extends Fragment {
                                     addToMemoir(view, movieName, releasedTV.getText().toString(), posterURL);
                                 }
                             })
-                            .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                            .setNeutralButton("SHARE", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    share(view);
                                     dialog.dismiss();
                                 }
                             }).show();
@@ -116,9 +121,10 @@ public class MovieDetailsFragment extends Fragment {
                                     addToMemoir(view, movieName, releasedTV.getText().toString(), posterURL);
                                 }
                             })
-                            .setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                            .setNeutralButton("SHARE", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    share(view);
                                     dialog.dismiss();
                                 }
                             }).show();
@@ -261,6 +267,19 @@ public class MovieDetailsFragment extends Fragment {
         fragmentTransaction.replace(R.id.content_frame,AddToMemoir.class,bundle);
         fragmentTransaction.addToBackStack("tag");
         fragmentTransaction.commit();
+    }
+
+
+    private void share(@NotNull View view){
+        Context context = view.getContext();
+        Activity now = (Activity)context;
+        Intent intent = new Intent();
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(Uri.parse(posterURL), "image/*");
+        intent.putExtra("content_url", Uri.parse(posterURL));
+        intent.putExtra("top_background_color", "#FFFFFF");
+        intent.putExtra("bottom_background_color", "#FFFFFF");
+        context.startActivity(Intent.createChooser(intent, "Title"));
     }
 
 }

@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
     private NetworkConnection networkConnection = null;
@@ -70,7 +71,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         String id, firstName;
-        SharedPreferences sharedPref= getActivity().getSharedPreferences("DATA", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref= requireActivity().getSharedPreferences("DATA", Context.MODE_PRIVATE);
         String credential= sharedPref.getString("Credential",null);
         Log.i("Flloyd: ", "DATA in Home :" + credential);
         try {
@@ -86,7 +87,7 @@ public class HomeFragment extends Fragment {
         Log.i("Flloyd: ", "First Name:" + firstName);
         Log.i("Flloyd: ", "Date:" + Date);
         Log.i("Flloyd: ", "ID:" + id);
-        String welcome = "Hello, \n" + firstName;
+        String welcome = "Hello " + firstName;
         userName.setText(welcome);
         currentDate.setText(Date);
 
@@ -105,10 +106,10 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPostExecute(JSONArray result) {
 
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            String movieName = null,ratingText = null, dateText = null;
-            Date releaseDate = null;
-            Double rating = 0.0;
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            String movieName,ratingText, dateText;
+            Date releaseDate;
+            double rating = 0.0;
             if (result!= null && !result.isNull(0)) {
                 for (int i = 0; i < result.length(); i++) {
 

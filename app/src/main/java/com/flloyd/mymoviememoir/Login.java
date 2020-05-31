@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,11 +34,16 @@ public class Login extends AppCompatActivity {
     EditText emailText,passwordText;
     ProgressBar progressBar;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         networkConnection = new NetworkConnection();
+
+
+
 
 
         Button Login = findViewById(R.id.login);
@@ -46,6 +52,9 @@ public class Login extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar1);
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.GONE);
+
+
+
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +77,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        Button Register = findViewById(R.id.register);
+        TextView Register = findViewById(R.id.link_signup);
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +85,10 @@ public class Login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
     }
 
     private class Authenticate extends AsyncTask<String, Void, JSONArray> {

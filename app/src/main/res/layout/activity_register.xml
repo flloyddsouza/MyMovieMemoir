@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:fitsSystemWindows="true">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Register">
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <ImageView android:src="@drawable/movielogo"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />
 
 
+
+        <!--  FName Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/first_name_hint"
             app:errorEnabled="true">
 
@@ -33,12 +40,13 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
+        <!--  LName Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/last_name_hint"
             app:errorEnabled="true">
 
@@ -51,11 +59,14 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
 
+        <!-- Gender Label -->
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
+            android:checkedButton="@id/male"
             android:id="@+id/input_layout_gender"
             app:useMaterialThemeColors="true"
             android:orientation="horizontal">
@@ -71,11 +82,14 @@
                 android:text="@string/female"/>
         </RadioGroup>
 
+
+        <!-- DOB Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_DOB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/date_of_birth"
             android:clickable="true"
             app:errorEnabled="true">
@@ -90,11 +104,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <!-- Address Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/PersonAddress"
             app:errorEnabled="true">
 
@@ -108,20 +124,24 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+
         <Spinner
             android:id="@+id/stateSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="86dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:entries="@array/State_array" />
 
+
+
+        <!-- PostCode Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_postCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/post_code"
             app:errorEnabled="true">
 
@@ -134,11 +154,14 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <!-- Email Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_new_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/email_hint"
             app:errorEnabled="true">
 
@@ -152,12 +175,13 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
+        <!--  Pass Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_new_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/password_hint"
             app:passwordToggleEnabled="true"
             app:errorEnabled="false">
@@ -172,11 +196,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <!-- Confirm Pass Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/confirm_password"
             app:passwordToggleEnabled="true"
             app:errorEnabled="false">
@@ -190,13 +216,21 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+
+
+        <!-- Signup Button -->
+
         <Button
             android:id="@+id/register"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
             android:text="@string/register_confirm"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_gravity="center" />
+            style="?attr/materialButtonOutlinedStyle" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </LinearLayout>
 </ScrollView>

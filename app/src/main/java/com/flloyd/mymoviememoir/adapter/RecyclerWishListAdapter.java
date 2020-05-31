@@ -1,13 +1,19 @@
 package com.flloyd.mymoviememoir.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +34,8 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
 
     private List<Movie> wishList;
     private MovieViewModel movieViewModel;
+    public static final int FACEBOOK_ADD_STICKER_TO_STORY_REQUEST = 10;
+    public static final String FACEBOOK_SHARE_STICKER_INTENT = "com.facebook.share.ADD_STICKER_TO_STORY";
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView movieName;
@@ -127,14 +135,15 @@ public class RecyclerWishListAdapter extends RecyclerView.Adapter<RecyclerWishLi
                             }).show();
                             }
                         })
-                        .setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                        .setNeutralButton("CLOSE", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                                 dialog.dismiss();
                             }
                         }).show();
             }
         });
 
     }
+
 }
