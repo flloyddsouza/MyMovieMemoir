@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyMovieMemoir</string>
+    <string name="app_name">My Movie Memoir</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="login">Sign In</string>
